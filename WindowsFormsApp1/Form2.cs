@@ -10,24 +10,16 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form form = new NesterovForm2();
-            form.Show();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Form form = new Form2();
-            form.Show();
+            Close();
         }
     }
 }
