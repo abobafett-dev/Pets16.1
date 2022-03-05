@@ -27,5 +27,10 @@ namespace WindowsFormsApp1
         {
             this.Close();
         }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
