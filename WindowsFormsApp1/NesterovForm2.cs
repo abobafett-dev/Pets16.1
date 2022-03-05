@@ -53,5 +53,10 @@ namespace WindowsFormsApp1
             Form form = new NesterovForm3();
             form.Show();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
