@@ -29,5 +29,16 @@ namespace WindowsFormsApp1
             Form form = new Form2();
             form.Show();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Form form = new OlennikovForm2();
+            form.Show();
+        }
     }
 }
