@@ -96,7 +96,7 @@ namespace WindowsFormsApp1
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(130, 36);
-            this.textBox1.MinimumSize = new System.Drawing.Size(0, 30);
+            this.textBox1.MinimumSize = new System.Drawing.Size(4, 30);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(124, 20);
             this.textBox1.TabIndex = 10;
@@ -113,7 +113,7 @@ namespace WindowsFormsApp1
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(260, 36);
-            this.dateTimePicker1.MinimumSize = new System.Drawing.Size(0, 20);
+            this.dateTimePicker1.MinimumSize = new System.Drawing.Size(4, 20);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(147, 20);
             this.dateTimePicker1.TabIndex = 11;
@@ -216,9 +216,9 @@ namespace WindowsFormsApp1
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(14, 232);
-            this.textBox2.MinimumSize = new System.Drawing.Size(0, 30);
+            this.textBox2.MinimumSize = new System.Drawing.Size(4, 30);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(114, 30);
+            this.textBox2.Size = new System.Drawing.Size(114, 20);
             this.textBox2.TabIndex = 22;
             // 
             // label9
@@ -242,17 +242,17 @@ namespace WindowsFormsApp1
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(139, 232);
-            this.textBox3.MinimumSize = new System.Drawing.Size(0, 30);
+            this.textBox3.MinimumSize = new System.Drawing.Size(4, 30);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(95, 30);
+            this.textBox3.Size = new System.Drawing.Size(95, 20);
             this.textBox3.TabIndex = 25;
             // 
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(244, 232);
-            this.textBox4.MinimumSize = new System.Drawing.Size(0, 30);
+            this.textBox4.MinimumSize = new System.Drawing.Size(4, 30);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(95, 30);
+            this.textBox4.Size = new System.Drawing.Size(95, 20);
             this.textBox4.TabIndex = 27;
             // 
             // label11
@@ -267,9 +267,9 @@ namespace WindowsFormsApp1
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(356, 232);
-            this.textBox5.MinimumSize = new System.Drawing.Size(0, 30);
+            this.textBox5.MinimumSize = new System.Drawing.Size(4, 30);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(140, 30);
+            this.textBox5.Size = new System.Drawing.Size(140, 20);
             this.textBox5.TabIndex = 29;
             // 
             // label12
@@ -285,9 +285,9 @@ namespace WindowsFormsApp1
             // textBox7
             // 
             this.textBox7.Location = new System.Drawing.Point(12, 290);
-            this.textBox7.MinimumSize = new System.Drawing.Size(0, 60);
+            this.textBox7.MinimumSize = new System.Drawing.Size(4, 60);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(116, 60);
+            this.textBox7.Size = new System.Drawing.Size(116, 20);
             this.textBox7.TabIndex = 31;
             // 
             // label13
@@ -302,9 +302,9 @@ namespace WindowsFormsApp1
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(139, 290);
-            this.textBox6.MinimumSize = new System.Drawing.Size(0, 60);
+            this.textBox6.MinimumSize = new System.Drawing.Size(4, 60);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(178, 60);
+            this.textBox6.Size = new System.Drawing.Size(178, 20);
             this.textBox6.TabIndex = 33;
             // 
             // label14
@@ -373,6 +373,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.listBox1);
             this.Name = "OlennikovForm4";
             this.Text = "Информация о животном";
+            this.Load += new System.EventHandler(this.OlennikovForm4_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

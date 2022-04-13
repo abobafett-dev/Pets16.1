@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class mainMenu : Form
     {
-        public Form1()
+        public mainMenu()
         {
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -20,13 +20,13 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form form = new NesterovForm2();
+            Form form = new registryOfPets();
             form.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form form = new Form2();
+            Form form = new registryOfMissingPetsAnnouncements();
             form.Show();
         }
 

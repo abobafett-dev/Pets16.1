@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.Controllers
 {
-    class openRegistryOfPets
+    class controller_registryOfPets
     {
+
     }
 }

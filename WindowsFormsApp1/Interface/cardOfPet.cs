@@ -7,28 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApp1.Domain;
+using WindowsFormsApp1.Controllers;
 
 namespace WindowsFormsApp1
 {
-    public partial class NesterovForm3 : Form
+    public partial class cardOfPet : Form
     {
-        public NesterovForm3()
+        public cardOfPet(int id_pet)
         {
-            int id_pet = 1;
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-
             OpenPet(id_pet);
         }
 
-        private void NesterovForm3_Load(object sender, EventArgs e)
+        private void event_cardOfPet_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void OpenPet(int id)
+        private void OpenPet(int id_pet)
         {
-
+            controller_cardOfPet controller_CardOfPet = new controller_cardOfPet();
+            Pet currentPet = controller_CardOfPet.OpenPet(id_pet);
         }
 
         private void ExportToExcel()
@@ -41,9 +42,19 @@ namespace WindowsFormsApp1
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void event_Click_CloseWindow(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

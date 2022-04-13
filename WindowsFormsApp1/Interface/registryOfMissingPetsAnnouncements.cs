@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form2 : Form
+    public partial class registryOfMissingPetsAnnouncements : Form
     {
-        public Form2()
+        public registryOfMissingPetsAnnouncements()
         {
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;

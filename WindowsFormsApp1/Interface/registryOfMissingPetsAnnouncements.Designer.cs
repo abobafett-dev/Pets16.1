@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp1
 {
-    partial class Form2
+    partial class registryOfMissingPetsAnnouncements
     {
         /// <summary>
         /// Required designer variable.

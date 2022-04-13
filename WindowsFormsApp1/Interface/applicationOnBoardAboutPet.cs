@@ -46,5 +46,10 @@ namespace WindowsFormsApp1
         {
 
         }
+
+        private void OlennikovForm3_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -50,8 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\openRegistryOfPets.cs" />
+    <Compile Include="Controllers\controller_cardOfPet.cs" />
+    <Compile Include="Controllers\controller_registryOfPets.cs" />
+    <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\Gender.cs" />
     <Compile Include="Domain\Pet.cs" />
+    <Compile Include="Domain\Photo.cs" />
+    <Compile Include="Domain\Size.cs" />
+    <Compile Include="Domain\Vaccination.cs" />
+    <Compile Include="Domain\VeterinaryActivity.cs" />
+    <Compile Include="Domain\Wool.cs" />
     <Compile Include="Interface\mainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,18 +127,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <None Include="Properties\DataSources\Pets161.Properties.Resources.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -141,14 +150,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Photos\3.jpg" />
+    <None Include="Resources\image 12.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w1.jpeg" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
