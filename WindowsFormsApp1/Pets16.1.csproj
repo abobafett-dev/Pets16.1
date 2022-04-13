@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\openRegistryOfPets.cs" />
+    <Compile Include="Domain\Pet.cs" />
     <Compile Include="Interface\mainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,9 +149,6 @@
   <ItemGroup>
     <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w1.jpeg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Domain\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

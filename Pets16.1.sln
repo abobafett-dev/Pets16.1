@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{C0503470-520A-4B7E-9AB1-99955150B1D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pets16.1", "WindowsFormsApp1\Pets16.1.csproj", "{C0503470-520A-4B7E-9AB1-99955150B1D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
