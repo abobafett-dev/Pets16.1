@@ -148,6 +148,7 @@
     <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w1.jpeg" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Domain\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
