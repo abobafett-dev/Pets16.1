@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DGVWF, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DGVWF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,70 +50,70 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Interface\mainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Interface\mainMenu.Designer.cs">
+      <DependentUpon>mainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="Interface\registryOfMissingPetsAnnouncements.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Interface\registryOfMissingPetsAnnouncements.Designer.cs">
+      <DependentUpon>registryOfMissingPetsAnnouncements.cs</DependentUpon>
     </Compile>
-    <Compile Include="OlennikovForm4.cs">
+    <Compile Include="Interface\submissionOfMissingPet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OlennikovForm4.Designer.cs">
-      <DependentUpon>OlennikovForm4.cs</DependentUpon>
+    <Compile Include="Interface\submissionOfMissingPet.Designer.cs">
+      <DependentUpon>submissionOfMissingPet.cs</DependentUpon>
     </Compile>
-    <Compile Include="OlennikovForm3.cs">
+    <Compile Include="Interface\applicationOnBoardAboutPet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OlennikovForm3.Designer.cs">
-      <DependentUpon>OlennikovForm3.cs</DependentUpon>
+    <Compile Include="Interface\applicationOnBoardAboutPet.Designer.cs">
+      <DependentUpon>applicationOnBoardAboutPet.cs</DependentUpon>
     </Compile>
-    <Compile Include="OlennikovForm2.cs">
+    <Compile Include="Interface\boardOfMissingPetsAnnouncements.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OlennikovForm2.Designer.cs">
-      <DependentUpon>OlennikovForm2.cs</DependentUpon>
+    <Compile Include="Interface\boardOfMissingPetsAnnouncements.Designer.cs">
+      <DependentUpon>boardOfMissingPetsAnnouncements.cs</DependentUpon>
     </Compile>
-    <Compile Include="NesterovForm3.cs">
+    <Compile Include="Interface\cardOfPet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NesterovForm3.Designer.cs">
-      <DependentUpon>NesterovForm3.cs</DependentUpon>
+    <Compile Include="Interface\cardOfPet.Designer.cs">
+      <DependentUpon>cardOfPet.cs</DependentUpon>
     </Compile>
-    <Compile Include="NesterovForm2.cs">
+    <Compile Include="Interface\registryOfPets.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NesterovForm2.Designer.cs">
-      <DependentUpon>NesterovForm2.cs</DependentUpon>
+    <Compile Include="Interface\registryOfPets.Designer.cs">
+      <DependentUpon>registryOfPets.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\mainMenu.resx">
+      <DependentUpon>mainMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\registryOfMissingPetsAnnouncements.resx">
+      <DependentUpon>registryOfMissingPetsAnnouncements.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NesterovForm2.resx">
-      <DependentUpon>NesterovForm2.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\registryOfPets.resx">
+      <DependentUpon>registryOfPets.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NesterovForm3.resx">
-      <DependentUpon>NesterovForm3.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\cardOfPet.resx">
+      <DependentUpon>cardOfPet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OlennikovForm2.resx">
-      <DependentUpon>OlennikovForm2.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\boardOfMissingPetsAnnouncements.resx">
+      <DependentUpon>boardOfMissingPetsAnnouncements.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OlennikovForm3.resx">
-      <DependentUpon>OlennikovForm3.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\applicationOnBoardAboutPet.resx">
+      <DependentUpon>applicationOnBoardAboutPet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OlennikovForm4.resx">
-      <DependentUpon>OlennikovForm4.cs</DependentUpon>
+    <EmbeddedResource Include="Interface\submissionOfMissingPet.resx">
+      <DependentUpon>submissionOfMissingPet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -135,13 +139,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\3.jpg" />
+    <None Include="Resources\Photos\3.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\1_O5zfga0VyTKrtQKovU3C6w.jpeg" />
+    <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w.jpeg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\1_O5zfga0VyTKrtQKovU3C6w1.jpeg" />
+    <None Include="Resources\Photos\1_O5zfga0VyTKrtQKovU3C6w1.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

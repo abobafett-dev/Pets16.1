@@ -14,8 +14,11 @@ namespace WindowsFormsApp1
     {
         public NesterovForm3()
         {
+            int id_pet = 1;
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+
+            OpenPet(id_pet);
         }
 
         private void NesterovForm3_Load(object sender, EventArgs e)
@@ -23,14 +26,24 @@ namespace WindowsFormsApp1
 
         }
 
+        private void OpenPet(int id)
+        {
+
+        }
+
+        private void ExportToExcel()
+        {
+
+        }
+
+        private void ExportToWord()
+        {
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
