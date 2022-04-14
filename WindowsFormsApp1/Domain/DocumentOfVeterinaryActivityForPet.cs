@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.Domain
 {
-    class Photo
+    class DocumentOfVeterinaryActivityForPet
     {
-        public int Id { get; set; }
         private int pet;
+        private int veterinaryActivity;
         public Pet Pet
         {
             get
@@ -17,21 +17,28 @@ namespace WindowsFormsApp1.Domain
                 return new Pet(pet);
             }
         }
+        public VeterinaryActivity VeterinaryActivity
+        {
+            get
+            {
+                return new VeterinaryActivity(veterinaryActivity);
+            }
+        }
         public String FilePath { get; set; }
-
-        public Photo(int id_photo)
+        public DocumentOfVeterinaryActivityForPet(int id_veterinaryActivity)
         {
             Dictionary<String, dynamic> objectFromDB =
                 new Dictionary<string, dynamic>
                 {
-                    { "id", 1 },
-                    {"id_pet", 1 },
-                    {"filePath", "exampleImage" },
+                    { "id_veterinaryActivity", 1 },
+                    { "id_pet", 1 }, 
+                    {"filePath", "exampleDoc" },
                 };
 
-            Id = objectFromDB["id"];
+            veterinaryActivity = objectFromDB["id_veterinaryActivity"];
             pet = objectFromDB["id_pet"];
             FilePath = objectFromDB["filePath"];
         }
+
     }
 }

@@ -61,11 +61,21 @@ namespace WindowsFormsApp1.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] exampleDoc {
+            get {
+                object obj = ResourceManager.GetObject("exampleDoc", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap image_12 {
+        internal static System.Drawing.Bitmap exampleImage {
             get {
-                object obj = ResourceManager.GetObject("image_12", resourceCulture);
+                object obj = ResourceManager.GetObject("exampleImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

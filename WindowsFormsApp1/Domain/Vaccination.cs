@@ -6,22 +6,29 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.Domain
 {
-//Против бешенства собака, кошка
-//Против чумы собака
-//Против парвовирусного энтерита собака
-//Против аденовироза собака
-//Против парагриппа собака
-//Против лептоспироза кошка
-//Против панлейкопении кошка
-//Против калицивироза кошка
-//Против герпесвирусной инфекции кошка
-//Против хламидиоза кошка
+    //Против бешенства собака, кошка
+    //Против чумы собака
+    //Против парвовирусного энтерита собака
+    //Против аденовироза собака
+    //Против парагриппа собака
+    //Против лептоспироза кошка
+    //Против панлейкопении кошка
+    //Против калицивироза кошка
+    //Против герпесвирусной инфекции кошка
+    //Против хламидиоза кошка
     class Vaccination
     {
-        static public int Id { get; set; }
-        //static public Pet Pet { get; set; }
-        static public String Name { get; set; }
-        static public DateTime Date { get; set; }
+        private int pet;
+        public int Id { get; set; }
+        public String Name { get; set; }
+        public DateTime Date { get; set; }
+        public Pet Pet
+        {
+            get
+            {
+                return new Pet(pet);
+            }
+        }
 
         public Vaccination(int id_vaccination)
         {
@@ -35,7 +42,7 @@ namespace WindowsFormsApp1.Domain
                 };
 
             Id = objectFromDB["id"];
-            //Pet = new Pet(objectFromDB["id_pet"]);
+            pet = objectFromDB["id_pet"];
             Name = objectFromDB["name"];
             Date = objectFromDB["date"];
         }

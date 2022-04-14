@@ -7,11 +7,13 @@ using WindowsFormsApp1.Domain;
 
 namespace WindowsFormsApp1.Controllers
 {
-    class controller_cardOfPet
+    class cardOfPet_controller
     {
         public Pet OpenPet(int id_pet)
         {
-            return new Pet(id_pet);
+            Pet pet = new Pet(id_pet);
+
+            return pet;
         }
     }
 }

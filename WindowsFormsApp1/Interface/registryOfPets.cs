@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DGVWF;
+using WindowsFormsApp1.Controllers;
 using WindowsFormsApp1.Domain;
 
 namespace WindowsFormsApp1
@@ -17,7 +18,7 @@ namespace WindowsFormsApp1
         private Boolean PresentationType { get; set; }
 
         private DataGridViewWithFilter currentDGVWF = new DataGridViewWithFilter();
-        private List<Button> currentPets = new List<Button>();
+        private List<Button> currentIconsOfPets = new List<Button>();
 
         public registryOfPets()
         {
@@ -40,12 +41,12 @@ namespace WindowsFormsApp1
             }
             else if(PresentationType == true)
             {
-                foreach(var element in currentPets)
+                foreach(var element in currentIconsOfPets)
                 {
                     this.Controls.Remove(element);
                 }
             }
-            currentPets = new List<Button>();
+            currentIconsOfPets = new List<Button>();
             ChangePresentationType();
             OpenRegistry();
         }
@@ -57,19 +58,30 @@ namespace WindowsFormsApp1
 
         private void OpenRegistry()
         {
+            registryOfPets_controller registryOfPets_controller = new registryOfPets_controller();
+            List<Pet> pets = registryOfPets_controller.OpenRegistry();
+
             var currentPresentationType = PresentationType;
-            List<Pet> pets = new List<Pet>();
 
             if (currentPresentationType == false)
             {
                 this.AutoScrollMinSize = new System.Drawing.Size(0, 500);
-                currentDGVWF.Bounds = new Rectangle(15, 35, 744, 428);
-                currentDGVWF.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
-                currentDGVWF.AllowUserToAddRows = false;
 
-                currentDGVWF.RowHeaderMouseClick += event_registryOfPets_DGVWF_RowHeaderMouseClick;
+                DataGridViewWithFilter newDGVWF = new DataGridViewWithFilter();
 
-                this.Controls.Add(currentDGVWF);
+                newDGVWF.Bounds = new Rectangle(15, 35, 744, 428);
+                newDGVWF.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
+                newDGVWF.AllowUserToAddRows = false;
+                newDGVWF.AllowUserToResizeColumns = false;
+                newDGVWF.AllowUserToResizeRows = false;
+                newDGVWF.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+                newDGVWF.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+                newDGVWF.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+                newDGVWF.RowHeaderMouseClick += event_registryOfPets_DGVWF_RowHeaderMouseClick;
+
+                this.Controls.Add(newDGVWF);
+                currentDGVWF = newDGVWF;
 
                 DataTable DT = new DataTable();
 
@@ -82,14 +94,21 @@ namespace WindowsFormsApp1
                 DT.Columns.Add("Номер паспорта");
                 DT.Columns.Add("ФИО владельца");
 
-                DT.Rows.Add(1, "Собака", "Пёс", new DateTime(1995,04,13), "Лысый", new DateTime(2022, 04, 13), "№32140123894", "Иванов Иван Иванович");
-                DT.Rows.Add(2, "Кошка", "Кот", new DateTime(1991, 04, 13), "Арбалет", new DateTime(2022, 04, 13), "№32140233894", "Иванов Иван Иванович");
+                foreach(Pet pet in pets)
+                {
+                    DT.Rows.Add(pet.Id, pet.Category.Name, pet.Name, pet.Birthday, pet.Breed, pet.DateRegistry, "№"+pet.PassportNumber, pet.OwnerName);
+                }
+                
+                ///TODO: Убрать временные данные, после подключения БД
+                DT.Rows.Add(1, "собака", "пёс", new DateTime(1995,04,13), "лысый", new DateTime(2022, 04, 13), "№32140123894", "Иванов Иван Иванович");
+                DT.Rows.Add(2, "кошка", "кот", new DateTime(1991, 04, 13), "арбалет", new DateTime(2022, 04, 13), "№32140233894", "Иванов Иван Иванович");
+                ///
 
                 DataSet DS = new DataSet();
                 DS.Tables.Add(DT);
 
-                currentDGVWF.DataSource = DS.Tables[0];
-                currentDGVWF.Columns["id"].Visible = false;
+                newDGVWF.DataSource = DS.Tables[0];
+                newDGVWF.Columns["id"].Visible = false;
             }
             else if (currentPresentationType == true)
             {
@@ -107,7 +126,39 @@ namespace WindowsFormsApp1
                 // y = 40
                 int locX = 10;
                 int locY = 40;
-                for (var i = 1; i < 20; i++)
+                int currentElement = 1;
+
+                foreach (Pet pet in pets)
+                {
+                    Button newButton = new Button();
+                    newButton.Bounds = new Rectangle(locX, locY, 150, 160);
+                    newButton.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
+                    newButton.Name = "button_pet_" + pet.Id;
+                    newButton.Text = pet.Name;
+                    newButton.TextAlign = ContentAlignment.BottomCenter;
+                    newButton.BackgroundImage = Properties.Resources.exampleImage;
+                    newButton.BackgroundImageLayout = ImageLayout.Zoom;
+                    newButton.Click += event_PetButton_Click;
+                    newButton.MaximumSize = new System.Drawing.Size(150, 160);
+                    this.Controls.Add(newButton);
+                    currentIconsOfPets.Add(newButton);
+                    if (currentElement % 4 == 0)
+                    {
+                        locX = 10;
+                        locY += 170;
+                    }
+                    else
+                    {
+                        locX += 160;
+                    }
+
+                    ///TODO: Убрать временные данные, после подключения БД
+                    currentElement++;
+                    ///
+                }
+
+                ///TODO: Убрать временные данные, после подключения БД
+                for (var i = currentElement; i < 20; i++)
                 {
                     Button newButton = new Button();
                     newButton.Bounds = new Rectangle(locX, locY, 150, 160);
@@ -115,12 +166,12 @@ namespace WindowsFormsApp1
                     newButton.Name = "button_pet_"+i;
                     newButton.Text = "кличка животного "+i;
                     newButton.TextAlign = ContentAlignment.BottomCenter;
-                    newButton.BackgroundImage = Properties.Resources.image_12;
+                    newButton.BackgroundImage = Properties.Resources.exampleImage;
                     newButton.BackgroundImageLayout = ImageLayout.Zoom;
                     newButton.Click += event_PetButton_Click;
                     newButton.MaximumSize = new System.Drawing.Size(150,160);
                     this.Controls.Add(newButton);
-                    currentPets.Add(newButton);
+                    currentIconsOfPets.Add(newButton);
                     if (i % 4 == 0)
                     {
                         locX = 10;
@@ -131,14 +182,10 @@ namespace WindowsFormsApp1
                         locX += 160;
                     }
                 }
+                ///
+
                 this.AutoScrollMinSize = new System.Drawing.Size(0,locY + 170);
             }
-        }
-
-        private void event_PetButton_Click(object sender, EventArgs e)
-        {
-            var id_pet = int.Parse((sender as Button).Name.Split('_')[2]);
-            OpenPet(id_pet);
         }
 
         private void OpenPet(int id_pet)
@@ -157,15 +204,21 @@ namespace WindowsFormsApp1
             this.Close();
         }
 
-        private void event_registryOfPets_DGVWF_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            int id_pet = (int)(this.currentDGVWF.Rows[e.RowIndex].Cells[0].Value);
-            OpenPet(id_pet);
-        }
-
         private void event_ExportExcel_Click(object sender, EventArgs e)
         {
             ExportToExcel();
+        }
+
+        private void event_PetButton_Click(object sender, EventArgs e)
+        {
+            var id_pet = int.Parse((sender as Button).Name.Split('_')[2]);
+            OpenPet(id_pet);
+        }
+
+        private void event_registryOfPets_DGVWF_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var id_pet = int.Parse((String)(this.currentDGVWF.Rows[e.RowIndex].Cells[0].Value));
+            OpenPet(id_pet);
         }
     }
 }

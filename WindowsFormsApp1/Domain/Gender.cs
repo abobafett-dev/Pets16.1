@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.Domain
 {
-//Пол животного кобель
-//Пол животного сука
-//Пол животного кот
-//Пол животного кошка
+    //Пол животного кобель
+    //Пол животного сука
+    //Пол животного кот
+    //Пол животного кошка
     class Gender
     {
-        static public int Id { get; set; }
-        static public Category Category { get; set; }
-        static public String Name { get; set; }
+        private int category;
+        public int Id { get; set; }
+        public Category Category
+        {
+            get
+            {
+                return new Category(category);
+            }
+        }
+        public String Name { get; set; }
 
         public Gender(int id_gender)
         {
@@ -27,7 +34,7 @@ namespace WindowsFormsApp1.Domain
                 };
 
             Id = objectFromDB["id"];
-            Category = new Category(objectFromDB["id_category"]);
+            category = objectFromDB["id_category"];
             Name = objectFromDB["name"];
         }
     }

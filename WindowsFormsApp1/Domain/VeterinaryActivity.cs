@@ -6,16 +6,36 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.Domain
 {
-//Обработка от эктопаразитов
-//Дегельминтизация
     class VeterinaryActivity
     {
-        static public int Id { get; set; }
-        //static public Pet Pet { get; set; }
-        static public Boolean WasPassed { get; set; }
-        static public String Description { get; set; }
-        static public DateTime Date { get; set; }
-        static public String FilePath { get; set; }
+        private int pet;
+        private int documentOfVeterinaryActivityForPet;
+        private int standardVeterinaryActivity;
+        public int Id { get; set; }
+        public Boolean WasPassed { get; set; }
+        public String Description { get; set; }
+        public DateTime Date { get; set; }
+        public Pet Pet
+        {
+            get
+            {
+                return new Pet(pet);
+            }
+        }
+        public DocumentOfVeterinaryActivityForPet DocumentOfVeterinaryActivityForPet
+        {
+            get
+            {
+                return new DocumentOfVeterinaryActivityForPet(documentOfVeterinaryActivityForPet);
+            }
+        }
+        public StandardVeterinaryActivity StandardVeterinaryActivity
+        {
+            get
+            {
+                return new StandardVeterinaryActivity(standardVeterinaryActivity);
+            }
+        }
 
         public VeterinaryActivity(int id_veterinary_activity)
         {
@@ -24,18 +44,20 @@ namespace WindowsFormsApp1.Domain
                 {
                     { "id", 1 },
                     {"id_pet", 1 },
-                    {"wasPassed", false },
+                    {"id_standard_veterinary_activity", 1 },
+                    {"wasPassed", true },
                     {"description", "Обработка от эктопаразитов" },
                     {"date", new DateTime(2022, 04, 13) },
                     {"filePath", "/documentsForVeterinaryActivity/1.docx" },
                 };
 
             Id = objectFromDB["id"];
-            //Pet = new Pet(objectFromDB["id_pet"]);
+            pet = objectFromDB["id_pet"];
+            standardVeterinaryActivity = objectFromDB["id_standard_veterinary_activity"];
             WasPassed = objectFromDB["wasPassed"];
             Description = objectFromDB["description"];
             Date = objectFromDB["date"];
-            FilePath = objectFromDB["filePath"];
+            documentOfVeterinaryActivityForPet = objectFromDB["id"];
         }
     }
 }

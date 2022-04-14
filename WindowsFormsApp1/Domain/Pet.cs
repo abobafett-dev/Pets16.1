@@ -8,18 +8,89 @@ namespace WindowsFormsApp1.Domain
 {
     class Pet
     {
-        static public int Id { get; set; }
-        static public Category Category { get; set; }
-        static public Size Size { get; set; }
-        static public Wool Wool { get; set; }
-        static public String Name { get; set; }
-        static public DateTime DateRegistry { get; set; }
-        static public DateTime Birthday { get; set; }
-        static public String PassportNumber { get; set; }
-        static public String OwnerName { get; set; }
-        static public List<Vaccination> Vaccinations { get; set; }
-        static public List<Photo> Photos { get; set; }
-        static public List<VeterinaryActivity> VeterinaryActivities { get; set; }
+        private int category;
+        private int size;
+        private int wool;
+        private List<int> vaccinations;
+        private List<int> photos;
+        private List<int> veterinaryActivities;
+        private List<int> documentOfVeterinaryActivityForPets;
+        public Category Category
+        {
+            get
+            {
+                return new Category(category);
+            }
+        }
+        public Size Size
+        {
+            get
+            {
+                return new Size(size);
+            }
+        }
+        public Wool Wool
+        {
+            get
+            {
+                return new Wool(wool);
+            }
+        }
+        public List<Vaccination> Vaccinations
+        {
+            get
+            {
+                var listOfVaccinations = new List<Vaccination>();
+                foreach (var vaccination in vaccinations)
+                {
+                    listOfVaccinations.Add(new Vaccination(vaccination));
+                }
+                return listOfVaccinations;
+            }
+        }
+        public List<Photo> Photos
+        {
+            get
+            {
+                var listOfPhotos = new List<Photo>();
+                foreach (var photo in photos)
+                {
+                    listOfPhotos.Add(new Photo(photo));
+                }
+                return listOfPhotos;
+            }
+        }
+        public List<VeterinaryActivity> VeterinaryActivities
+        {
+            get
+            {
+                var listOfVeterinaryActivities = new List<VeterinaryActivity>();
+                foreach (var veterinaryActivity in veterinaryActivities)
+                {
+                    listOfVeterinaryActivities.Add(new VeterinaryActivity(veterinaryActivity));
+                }
+                return listOfVeterinaryActivities;
+            }
+        }
+        public List<DocumentOfVeterinaryActivityForPet> DocumentOfVeterinaryActivityForPets
+        {
+            get
+            {
+                var listOfDocumentOfVeterinaryActivityForPets = new List<DocumentOfVeterinaryActivityForPet>();
+                foreach (var documentOfVeterinaryActivityForPet in documentOfVeterinaryActivityForPets)
+                {
+                    listOfDocumentOfVeterinaryActivityForPets.Add(new DocumentOfVeterinaryActivityForPet(documentOfVeterinaryActivityForPet));
+                }
+                return listOfDocumentOfVeterinaryActivityForPets;
+            }
+        }
+        public int Id { get; set; }
+        public String Name { get; set; }
+        public String Breed { get; set; }
+        public DateTime DateRegistry { get; set; }
+        public DateTime Birthday { get; set; }
+        public String PassportNumber { get; set; }
+        public String OwnerName { get; set; }
 
         public Pet(int id_pet)
         {
@@ -31,24 +102,28 @@ namespace WindowsFormsApp1.Domain
                     {"id_size", 1 },
                     {"id_wool", 1 },
                     {"name", "Имя" },
+                    {"breed", "Шотландская вислоухая" },
                     {"dateRegistry", new DateTime(2022, 04, 13) },
                     {"birthday", new DateTime(2000, 04, 13) },
                     {"passportNumber", "000001" },
                     {"ownerName", "Иванов Иван Иванович" },
                 };
 
-            List<Vaccination> vaccinationsToCurrentPetFromDB = new List<Vaccination>() { new Vaccination(1), new Vaccination(2), new Vaccination(3) };
-            List<Photo> photosToCurrentPetFromDB = new List<Photo>() { new Photo(1), new Photo(2), new Photo(3) };
-            List<VeterinaryActivity> veterinaryActivitiesToCurrentPetFromDB = new List<VeterinaryActivity>() { new VeterinaryActivity(1), new VeterinaryActivity(2), new VeterinaryActivity(3) };
+            var vaccinationsToCurrentPetFromDB = new List<int>() { 1,2,3 };
+            var photosToCurrentPetFromDB = new List<int>() { 1, 2, 3 };
+            var veterinaryActivitiesToCurrentPetFromDB = new List<int>() { 1, 2, 3 };
+            var documentOfVeterinaryActivityForPetsFromDB = new List<int>() { 1, 2, 3 };
 
             Id = objectFromDB["id"];
-            Category = new Category(objectFromDB["id_category"]);
-            Size = new Size(objectFromDB["id_size"]);
-            Wool = new Wool(objectFromDB["id_wool"]);
-            Vaccinations = vaccinationsToCurrentPetFromDB;
-            Photos = photosToCurrentPetFromDB;
-            VeterinaryActivities = veterinaryActivitiesToCurrentPetFromDB;
+            category = objectFromDB["id_category"];
+            size = objectFromDB["id_size"];
+            wool = objectFromDB["id_wool"];
+            vaccinations = vaccinationsToCurrentPetFromDB;
+            photos = photosToCurrentPetFromDB;
+            veterinaryActivities = veterinaryActivitiesToCurrentPetFromDB;
+            documentOfVeterinaryActivityForPets = documentOfVeterinaryActivityForPetsFromDB;
             Name = objectFromDB["name"];
+            Breed = objectFromDB["breed"];
             DateRegistry = objectFromDB["dateRegistry"];
             Birthday = objectFromDB["birthday"];
             PassportNumber = objectFromDB["passportNumber"];
