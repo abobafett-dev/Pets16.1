@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using DGVWF;
 using WindowsFormsApp1.Controllers;
 using WindowsFormsApp1.Domain;
@@ -196,7 +197,8 @@ namespace WindowsFormsApp1
 
         private void ExportToExcel()
         {
-
+            RegistryOfPetsController registryOfPetsController = new RegistryOfPetsController();
+            registryOfPetsController.ExportExcel();
         }
 
         private void event_CloseWindow(object sender, EventArgs e)

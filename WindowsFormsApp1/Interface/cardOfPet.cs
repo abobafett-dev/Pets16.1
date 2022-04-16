@@ -245,14 +245,16 @@ namespace WindowsFormsApp1
 
         }
 
-        private void ExportToExcel()
+        private void ExportToExcel(int id_pet)
         {
-
+            CardOfPetController cardOfPetController = new CardOfPetController();
+            cardOfPetController.ExportExcel(id_pet);
         }
 
-        private void ExportToWord()
+        private void ExportToWord(int id_pet)
         {
-
+            CardOfPetController cardOfPetController = new CardOfPetController();
+            cardOfPetController.ExportWord(id_pet);
         }
 
         private void event_Click_CloseWindow(object sender, EventArgs e)

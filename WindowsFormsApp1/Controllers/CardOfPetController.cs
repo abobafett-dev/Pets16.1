@@ -15,5 +15,15 @@ namespace WindowsFormsApp1.Controllers
 
             return pet;
         }
+
+        public Pet ExportExcel(int id_pet)
+        {
+            return new Pet(id_pet);
+        }
+
+        public Pet ExportWord(int id_pet)
+        {
+            return new Pet(id_pet);
+        }
     }
 }

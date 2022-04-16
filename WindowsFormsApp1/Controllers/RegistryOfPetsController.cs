@@ -18,5 +18,15 @@ namespace WindowsFormsApp1.Controllers
 
             return pets;
         }
+
+        public List<Pet> ExportExcel()
+        {
+            List<Pet> pets = new List<Pet>();
+            pets.Add(new Pet(1));
+            pets.Add(new Pet(2));
+            pets.Add(new Pet(3));
+
+            return pets;
+        }
     }
 }
