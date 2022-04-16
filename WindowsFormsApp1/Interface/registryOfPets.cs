@@ -58,7 +58,7 @@ namespace WindowsFormsApp1
 
         private void OpenRegistry()
         {
-            registryOfPets_controller registryOfPets_controller = new registryOfPets_controller();
+            RegistryOfPetsController registryOfPets_controller = new RegistryOfPetsController();
             List<Pet> pets = registryOfPets_controller.OpenRegistry();
 
             var currentPresentationType = PresentationType;

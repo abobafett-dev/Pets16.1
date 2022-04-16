@@ -15,12 +15,12 @@ namespace WindowsFormsApp1
 {
     public partial class cardOfPet : Form
     {
-        Dictionary<String, DataGridViewWithFilter> currentDGVWFs = new Dictionary<String, DataGridViewWithFilter>
+        Dictionary<String, DataGridView> currentDGVWFs = new Dictionary<String, DataGridView>
         {
             { "currentVaccinationsInDGVWF", new DataGridViewWithFilter() },
             { "currentVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
             { "currentAllVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
-            { "currentPhotosInDGVWF", new DataGridViewWithFilter() },
+            { "currentPhotosInDGVWF", new DataGridView() },
             { "currentDocumentsFromVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
 
         };
@@ -39,7 +39,7 @@ namespace WindowsFormsApp1
 
         private void OpenPet(int id_pet)
         {
-            cardOfPet_controller CardOfPet_controller = new cardOfPet_controller();
+            CardOfPetController CardOfPet_controller = new CardOfPetController();
             Pet currentPet = CardOfPet_controller.OpenPet(id_pet);
 
             pictureBox_photo.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(currentPet.Photos[0].FilePath);
@@ -56,12 +56,12 @@ namespace WindowsFormsApp1
             label_ownerName.Text = currentPet.OwnerName;
 
 
-            Dictionary<String, DataGridViewWithFilter> newDGVWFs = new Dictionary<String, DataGridViewWithFilter>
+            Dictionary<String, DataGridView> newDGVWFs = new Dictionary<String, DataGridView>
             {
                 { "newVaccinationsInDGVWF", new DataGridViewWithFilter() },
                 { "newVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
                 { "newAllVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
-                { "newPhotosInDGVWF", new DataGridViewWithFilter() },
+                { "newPhotosInDGVWF", new DataGridView() },
                 { "newDocumentsFromVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
             };
 

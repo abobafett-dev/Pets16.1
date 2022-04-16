@@ -7,7 +7,7 @@ using WindowsFormsApp1.Domain;
 
 namespace WindowsFormsApp1.Controllers
 {
-    class registryOfPets_controller
+    class RegistryOfPetsController
     {
         public List<Pet> OpenRegistry()
         {

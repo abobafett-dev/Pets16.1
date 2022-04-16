@@ -7,7 +7,7 @@ using WindowsFormsApp1.Domain;
 
 namespace WindowsFormsApp1.Controllers
 {
-    class cardOfPet_controller
+    class CardOfPetController
     {
         public Pet OpenPet(int id_pet)
         {
