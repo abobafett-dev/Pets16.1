@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1.Domain
 {
@@ -12,8 +13,8 @@ namespace WindowsFormsApp1.Domain
     //Шерсть кудрявая
     class Wool
     {
-        private int pet;
-        public int Id { get; set; }
+        private long pet;
+        public long Id { get; set; }
         public String Name { get; set; }
         public Pet Pet
         {
@@ -23,19 +24,14 @@ namespace WindowsFormsApp1.Domain
             }
         }
 
-        public Wool(int id_wool)
+        public Wool(long id_wool, long id_pet)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    { "id_pet", 1 },
-                    {"name", "короткошерстная" },
-                };
+            dbWool dbWool = new dbWool();
+            var woolInfoFromDB = dbWool.getWool(id_wool);
 
-            Id = objectFromDB["id"];
-            pet = objectFromDB["id_pet"];
-            Name = objectFromDB["name"];
+            Id = woolInfoFromDB.First().Key;
+            pet = id_pet;
+            Name = woolInfoFromDB.First().Value;
         }
     }
 }

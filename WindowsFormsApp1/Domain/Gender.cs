@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1.Domain
 {
@@ -12,30 +13,35 @@ namespace WindowsFormsApp1.Domain
     //Пол животного кошка
     class Gender
     {
-        private int category;
-        public int Id { get; set; }
+        private long category;
+        private long pet;
+        public long Id { get; set; }
         public Category Category
         {
             get
             {
-                return new Category(category);
+                return new Category(category, pet, Id);
+            }
+        }
+        public Pet Pet
+        {
+            get
+            {
+                return new Pet(pet);
             }
         }
         public String Name { get; set; }
 
-        public Gender(int id_gender)
+        public Gender(long id_gender, long id_pet)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    {"id_category", 1 },
-                    {"name", "кот" },
-                };
+            dbGender dbGender = new dbGender();
+            var genderInfoFromDB = dbGender.getGender(id_gender);
 
-            Id = objectFromDB["id"];
-            category = objectFromDB["id_category"];
-            Name = objectFromDB["name"];
+            category = genderInfoFromDB.First().Key;
+            pet = id_pet;
+            var gender = (Dictionary<dynamic, dynamic>)genderInfoFromDB[category];
+            Id = gender.First().Key;
+            Name = genderInfoFromDB[category][Id];
         }
     }
 }

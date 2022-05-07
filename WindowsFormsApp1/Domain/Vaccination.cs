@@ -18,8 +18,8 @@ namespace WindowsFormsApp1.Domain
     //Против хламидиоза кошка
     class Vaccination
     {
-        private int pet;
-        public int Id { get; set; }
+        private long pet;
+        public long Id { get; set; }
         public String Name { get; set; }
         public DateTime Date { get; set; }
         public Pet Pet
@@ -30,21 +30,12 @@ namespace WindowsFormsApp1.Domain
             }
         }
 
-        public Vaccination(int id_vaccination)
+        public Vaccination(long id_pet, long id_vaccination,string name_vaccination,DateTime date_vaccination)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    {"id_pet", 1 },
-                    {"name", "Против бешенства" },
-                    {"date", new DateTime(2022, 04, 13) },
-                };
-
-            Id = objectFromDB["id"];
-            pet = objectFromDB["id_pet"];
-            Name = objectFromDB["name"];
-            Date = objectFromDB["date"];
+            Id = id_vaccination;
+            pet = id_pet;
+            Name = name_vaccination;
+            Date = date_vaccination;
         }
     }
 }

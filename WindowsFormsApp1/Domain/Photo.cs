@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1.Domain
 {
     class Photo
     {
-        public int Id { get; set; }
-        private int pet;
+        public long Id { get; set; }
+        private long pet;
         public Pet Pet
         {
             get
@@ -19,19 +20,13 @@ namespace WindowsFormsApp1.Domain
         }
         public String FilePath { get; set; }
 
-        public Photo(int id_photo)
+        public Photo(long id_photo,string filePath, long id_pet)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    {"id_pet", 1 },
-                    {"filePath", "exampleImage" },
-                };
 
-            Id = objectFromDB["id"];
-            pet = objectFromDB["id_pet"];
-            FilePath = objectFromDB["filePath"];
+            Id = id_photo;
+            pet = id_pet;
+            FilePath = filePath;
+;
         }
     }
 }

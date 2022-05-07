@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1.Domain
 {
@@ -11,8 +12,8 @@ namespace WindowsFormsApp1.Domain
 //Размер животного большое
     class Size
     {
-        private static int pet;
-        public int Id { get; set; }
+        private static long pet;
+        public long Id { get; set; }
         public String Name { get; set; }
         public Pet Pet
         {
@@ -22,19 +23,13 @@ namespace WindowsFormsApp1.Domain
             }
         }
 
-        public Size(int id_size)
+        public Size(long id_size, long id_pet)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    { "id_pet", 1 },
-                    {"name", "маленькое" },
-                };
-
-            Id = objectFromDB["id"];
-            pet = objectFromDB["id_pet"];
-            Name = objectFromDB["name"];
+            dbSize dbSize = new dbSize();
+            var sizeFromDB = dbSize.getSize(id_size);
+            Id = sizeFromDB.First().Key;
+            pet = id_pet;
+            Name = sizeFromDB.First().Value;
         }
     }
 }

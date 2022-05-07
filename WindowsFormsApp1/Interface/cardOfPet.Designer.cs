@@ -58,6 +58,7 @@ namespace WindowsFormsApp1
             this.label3 = new System.Windows.Forms.Label();
             this.label_name = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_photo)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -98,7 +99,7 @@ namespace WindowsFormsApp1
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(1006, 339);
             this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Фото/документы";
+            this.tabPage5.Text = "Документы";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -368,11 +369,22 @@ namespace WindowsFormsApp1
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(5, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1014, 365);
             this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Фото";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // cardOfPet
             // 
@@ -424,5 +436,6 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label_name;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage6;
     }
 }

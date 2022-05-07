@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1.Domain
 {
@@ -10,29 +11,35 @@ namespace WindowsFormsApp1.Domain
     //Дегельминтизация
     class StandardVeterinaryActivity
     {
-        private int veterinaryActivity;
-        public int Id { get; set; }
+        private long veterinaryActivity;
+        private long id_pet;
+        private bool wasPassed;
+        private string description;
+        private DateTime date;
+        private string filePath;
+        public long Id { get; set; }
         public String Name { get; set; }
         public VeterinaryActivity VeterinaryActivity
         {
             get
             {
-                return new VeterinaryActivity(veterinaryActivity);
+                return new VeterinaryActivity(veterinaryActivity, id_pet, Id, wasPassed, description, date, filePath);
             }
         }
-        public StandardVeterinaryActivity(int id_standard_veterinary_activity)
+        public StandardVeterinaryActivity(long id_veterinaryActivity, long id_pet, long id_standardVeterinaryActivity, bool wasPassed, string description, DateTime date, string filePath)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    {"id_veterinary_activity", 1 },
-                    {"name", "Обработка от эктопаразитов" },
-                };
+            dbStandardVeterinaryActivity dbStandardVeterinaryActivity = new dbStandardVeterinaryActivity();
+            var currentStandardVeterinaryActivity = dbStandardVeterinaryActivity.getStandardVeterinaryActivity(id_standardVeterinaryActivity); 
 
-            Id = objectFromDB["id"];
-            Name = objectFromDB["name"];
-            veterinaryActivity = objectFromDB["id_veterinary_activity"];
+
+            Id = currentStandardVeterinaryActivity.First().Key;
+            Name = currentStandardVeterinaryActivity.First().Value;
+            veterinaryActivity = id_veterinaryActivity;
+            this.id_pet = id_pet;
+            this.wasPassed = wasPassed;
+            this.description = description;
+            this.date = date;
+            this.filePath = filePath;
         }
     }
 }

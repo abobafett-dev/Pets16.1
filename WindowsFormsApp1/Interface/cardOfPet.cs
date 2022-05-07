@@ -37,12 +37,14 @@ namespace WindowsFormsApp1
 
         }
 
-        private void OpenPet(int id_pet)
+        private void OpenPet(long id_pet)
         {
             CardOfPetController CardOfPet_controller = new CardOfPetController();
             Pet currentPet = CardOfPet_controller.OpenPet(id_pet);
 
-            pictureBox_photo.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(currentPet.Photos[0].FilePath);
+            var firstPhotoFilePath = currentPet.Photos.First().Value.FilePath;
+
+            pictureBox_photo.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(firstPhotoFilePath);
 
             label_name.Text = currentPet.Name;
             label_category.Text = currentPet.Category.Name;
@@ -65,8 +67,6 @@ namespace WindowsFormsApp1
                 { "newDocumentsFromVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
             };
 
-            //newDGVWFs["newVaccinationsInDGVWF"].Bounds = new Rectangle(15, 35, 744, 428);
-            
             //newVaccinationsInDGVWF
             {
                 newDGVWFs["newVaccinationsInDGVWF"].AllowUserToAddRows = false;
@@ -86,15 +86,15 @@ namespace WindowsFormsApp1
                 DTToNewVaccinationsInDGVWF.Columns.Add("Вакцина");
                 DTToNewVaccinationsInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (Vaccination vaccination in currentPet.Vaccinations)
+                foreach (Vaccination vaccination in currentPet.Vaccinations.Values)
                 {
                     DTToNewVaccinationsInDGVWF.Rows.Add(vaccination.Id, vaccination.Name, vaccination.Date);
                 }
 
-                ///TODO: Убрать временные данные, после подключения БД
-                DTToNewVaccinationsInDGVWF.Rows.Add(1, "Против чего-то", new DateTime(2022, 04, 13));
-                DTToNewVaccinationsInDGVWF.Rows.Add(2, "Против того-то", new DateTime(2022, 04, 13));
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //DTToNewVaccinationsInDGVWF.Rows.Add(1, "Против чего-то", new DateTime(2022, 04, 13));
+                //DTToNewVaccinationsInDGVWF.Rows.Add(2, "Против того-то", new DateTime(2022, 04, 13));
+                /////
 
                 DataSet DSToNewVaccinationsInDGVWF = new DataSet();
                 DSToNewVaccinationsInDGVWF.Tables.Add(DTToNewVaccinationsInDGVWF);
@@ -122,18 +122,15 @@ namespace WindowsFormsApp1
                 DTToNewVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
                 DTToNewVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities)
+                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[true].Values)
                 {
-                    if(veterinaryActivity.WasPassed == true)
-                    {
-                        DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
-                    }
+                    DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
                 }
 
-                ///TODO: Убрать временные данные, после подключения БД
-                DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(1, "Дегельминтизация", new DateTime(2022, 04, 13));
-                DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(2, "Дегельминтизация", new DateTime(2022, 04, 13));
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(1, "Дегельминтизация", new DateTime(2022, 04, 13));
+                //DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(2, "Дегельминтизация", new DateTime(2022, 04, 13));
+                /////
 
                 DataSet DSToNewVeterinaryActivitiesInDGVWF = new DataSet();
                 DSToNewVeterinaryActivitiesInDGVWF.Tables.Add(DTToNewVeterinaryActivitiesInDGVWF);
@@ -161,18 +158,15 @@ namespace WindowsFormsApp1
                 DTToNewAllVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
                 DTToNewAllVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities)
+                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[false].Values)
                 {
-                    if (veterinaryActivity.WasPassed == false)
-                    {
-                        DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
-                    }
+                    DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
                 }
 
-                ///TODO: Убрать временные данные, после подключения БД
-                DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(1, "Обработка от эктопаразитов", new DateTime(2022, 04, 13));
-                DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(2, "Дегельминтизация", new DateTime(2022, 04, 13));
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(1, "Обработка от эктопаразитов", new DateTime(2022, 04, 13));
+                //DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(2, "Дегельминтизация", new DateTime(2022, 04, 13));
+                /////
 
                 DataSet DSToNewAllVeterinaryActivitiesInDGVWF = new DataSet();
                 DSToNewAllVeterinaryActivitiesInDGVWF.Tables.Add(DTToNewAllVeterinaryActivitiesInDGVWF);
@@ -183,13 +177,13 @@ namespace WindowsFormsApp1
 
             //newDocumentsFromVeterinaryActivitiesInDGVWF
             {
-                newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].Bounds = new Rectangle(0, 3, 1000, 100);
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].AllowUserToAddRows = false;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].AllowUserToResizeColumns = false;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].AllowUserToResizeRows = false;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].Dock = DockStyle.Fill;
 
                 tabPage5.Controls.Add(newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"]);
                 currentDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"] = newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"];
@@ -197,16 +191,18 @@ namespace WindowsFormsApp1
                 DataTable DTToNewDocumentsFromVeterinaryActivitiesInDGVWF = new DataTable();
 
                 DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Имя файла");
+                DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
+                DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (DocumentOfVeterinaryActivityForPet documentOfVeterinaryActivityForPet in currentPet.DocumentOfVeterinaryActivityForPets)
+                foreach (DocumentOfVeterinaryActivityForPet documentOfVeterinaryActivityForPet in currentPet.DocumentsOfVeterinaryActivities.Values)
                 {
-                    DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add(documentOfVeterinaryActivityForPet.FilePath);
+                    DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add(documentOfVeterinaryActivityForPet.FilePath, documentOfVeterinaryActivityForPet.VeterinaryActivity.Description, documentOfVeterinaryActivityForPet.VeterinaryActivity.Date);
                 }
 
-                ///TODO: Убрать временные данные, после подключения БД
-                DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add("Какой-то акт");
-                DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add("Второй акт");
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add("Какой-то акт", "Обработка от эктопаразитов", new DateTime(2022, 04, 13));
+                //DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add("Второй акт", "Дегельминтизация", new DateTime(2022, 04, 13));
+                /////
 
                 DataSet DSToNewDocumentsFromVeterinaryActivitiesInDGVWF = new DataSet();
                 DSToNewDocumentsFromVeterinaryActivitiesInDGVWF.Tables.Add(DTToNewDocumentsFromVeterinaryActivitiesInDGVWF);
@@ -216,7 +212,6 @@ namespace WindowsFormsApp1
 
             //newPhotosInDGVWF
             {
-                newDGVWFs["newPhotosInDGVWF"].Bounds = new Rectangle(0, 113, 1000, 200);
                 newDGVWFs["newPhotosInDGVWF"].AllowUserToAddRows = false;
                 newDGVWFs["newPhotosInDGVWF"].AllowUserToResizeColumns = false;
                 newDGVWFs["newPhotosInDGVWF"].AllowUserToResizeRows = false;
@@ -224,15 +219,16 @@ namespace WindowsFormsApp1
                 newDGVWFs["newPhotosInDGVWF"].RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWFs["newPhotosInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 newDGVWFs["newPhotosInDGVWF"].AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                newDGVWFs["newPhotosInDGVWF"].Dock = DockStyle.Fill;
 
-                tabPage5.Controls.Add(newDGVWFs["newPhotosInDGVWF"]);
+                tabPage6.Controls.Add(newDGVWFs["newPhotosInDGVWF"]);
                 currentDGVWFs["newPhotosInDGVWF"] = newDGVWFs["newPhotosInDGVWF"];
 
                 DataTable DTToNewPhotosInDGVWF = new DataTable();
 
                 DTToNewPhotosInDGVWF.Columns.Add("Фото", typeof(Image));
 
-                foreach (Photo photo in currentPet.Photos)
+                foreach (Photo photo in currentPet.Photos.Values)
                 {
                     DTToNewPhotosInDGVWF.Rows.Add((Image)Properties.Resources.ResourceManager.GetObject(photo.FilePath));
                 }

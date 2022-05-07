@@ -11,6 +11,7 @@ using System.Xml;
 using DGVWF;
 using WindowsFormsApp1.Controllers;
 using WindowsFormsApp1.Domain;
+using WindowsFormsApp1.Interface;
 
 namespace WindowsFormsApp1
 {
@@ -70,7 +71,7 @@ namespace WindowsFormsApp1
 
                 DataGridViewWithFilter newDGVWF = new DataGridViewWithFilter();
 
-                newDGVWF.Bounds = new Rectangle(15, 35, 744, 428);
+                newDGVWF.Bounds = new Rectangle(15, 70, 744, 428);
                 newDGVWF.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
                 newDGVWF.AllowUserToAddRows = false;
                 newDGVWF.AllowUserToResizeColumns = false;
@@ -100,10 +101,10 @@ namespace WindowsFormsApp1
                     DT.Rows.Add(pet.Id, pet.Category.Name, pet.Name, pet.Birthday, pet.Breed, pet.DateRegistry, "№"+pet.PassportNumber, pet.OwnerName);
                 }
                 
-                ///TODO: Убрать временные данные, после подключения БД
-                DT.Rows.Add(1, "собака", "пёс", new DateTime(1995,04,13), "лысый", new DateTime(2022, 04, 13), "№32140123894", "Иванов Иван Иванович");
-                DT.Rows.Add(2, "кошка", "кот", new DateTime(1991, 04, 13), "арбалет", new DateTime(2022, 04, 13), "№32140233894", "Иванов Иван Иванович");
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //DT.Rows.Add(1, "собака", "пёс", new DateTime(1995,04,13), "лысый", new DateTime(2022, 04, 13), "№32140123894", "Иванов Иван Иванович");
+                //DT.Rows.Add(2, "кошка", "кот", new DateTime(1991, 04, 13), "арбалет", new DateTime(2022, 04, 13), "№32140233894", "Иванов Иван Иванович");
+                /////
 
                 DataSet DS = new DataSet();
                 DS.Tables.Add(DT);
@@ -126,7 +127,7 @@ namespace WindowsFormsApp1
                 // x = 10
                 // y = 40
                 int locX = 10;
-                int locY = 40;
+                int locY = 70;
                 int currentElement = 1;
 
                 foreach (Pet pet in pets)
@@ -153,37 +154,35 @@ namespace WindowsFormsApp1
                         locX += 160;
                     }
 
-                    ///TODO: Убрать временные данные, после подключения БД
                     currentElement++;
-                    ///
                 }
 
-                ///TODO: Убрать временные данные, после подключения БД
-                for (var i = currentElement; i < 20; i++)
-                {
-                    Button newButton = new Button();
-                    newButton.Bounds = new Rectangle(locX, locY, 150, 160);
-                    newButton.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
-                    newButton.Name = "button_pet_"+i;
-                    newButton.Text = "кличка животного "+i;
-                    newButton.TextAlign = ContentAlignment.BottomCenter;
-                    newButton.BackgroundImage = Properties.Resources.exampleImage;
-                    newButton.BackgroundImageLayout = ImageLayout.Zoom;
-                    newButton.Click += event_PetButton_Click;
-                    newButton.MaximumSize = new System.Drawing.Size(150,160);
-                    this.Controls.Add(newButton);
-                    currentIconsOfPets.Add(newButton);
-                    if (i % 4 == 0)
-                    {
-                        locX = 10;
-                        locY += 170;
-                    }
-                    else
-                    {
-                        locX += 160;
-                    }
-                }
-                ///
+                /////TODO: Убрать временные данные, после подключения БД
+                //for (var i = currentElement; i < 20; i++)
+                //{
+                //    Button newButton = new Button();
+                //    newButton.Bounds = new Rectangle(locX, locY, 150, 160);
+                //    newButton.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
+                //    newButton.Name = "button_pet_"+i;
+                //    newButton.Text = "кличка животного "+i;
+                //    newButton.TextAlign = ContentAlignment.BottomCenter;
+                //    newButton.BackgroundImage = Properties.Resources.exampleImage;
+                //    newButton.BackgroundImageLayout = ImageLayout.Zoom;
+                //    newButton.Click += event_PetButton_Click;
+                //    newButton.MaximumSize = new System.Drawing.Size(150,160);
+                //    this.Controls.Add(newButton);
+                //    currentIconsOfPets.Add(newButton);
+                //    if (i % 4 == 0)
+                //    {
+                //        locX = 10;
+                //        locY += 170;
+                //    }
+                //    else
+                //    {
+                //        locX += 160;
+                //    }
+                //}
+                /////
 
                 this.AutoScrollMinSize = new System.Drawing.Size(0,locY + 170);
             }
@@ -221,6 +220,12 @@ namespace WindowsFormsApp1
         {
             var id_pet = int.Parse((String)(this.currentDGVWF.Rows[e.RowIndex].Cells[0].Value));
             OpenPet(id_pet);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Form form = new registryOfPetsFilters();
+            form.Show();
         }
     }
 }

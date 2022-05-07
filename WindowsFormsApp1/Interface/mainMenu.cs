@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1
 {
@@ -39,6 +40,19 @@ namespace WindowsFormsApp1
         {
             Form form = new OlennikovForm2();
             form.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var dbGender = new dbGender();
+            var elements = dbGender.getAllGenders();
+            foreach(var id in elements.Keys)
+            {
+                foreach(var element_id in elements[id].Keys)
+                {
+                    MessageBox.Show(elements[id][element_id].ToString());
+                }
+            }
         }
     }
 }

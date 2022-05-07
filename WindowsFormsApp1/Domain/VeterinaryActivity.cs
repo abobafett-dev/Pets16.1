@@ -8,10 +8,10 @@ namespace WindowsFormsApp1.Domain
 {
     class VeterinaryActivity
     {
-        private int pet;
-        private int documentOfVeterinaryActivityForPet;
-        private int standardVeterinaryActivity;
-        public int Id { get; set; }
+        private long pet;
+        private long standardVeterinaryActivity;
+        private string filePath;
+        public long Id { get; set; }
         public Boolean WasPassed { get; set; }
         public String Description { get; set; }
         public DateTime Date { get; set; }
@@ -26,38 +26,26 @@ namespace WindowsFormsApp1.Domain
         {
             get
             {
-                return new DocumentOfVeterinaryActivityForPet(documentOfVeterinaryActivityForPet);
+                return new DocumentOfVeterinaryActivityForPet(Id, pet, standardVeterinaryActivity, WasPassed, Description, Date, filePath);
             }
         }
         public StandardVeterinaryActivity StandardVeterinaryActivity
         {
             get
             {
-                return new StandardVeterinaryActivity(standardVeterinaryActivity);
+                return new StandardVeterinaryActivity(Id, pet, standardVeterinaryActivity, WasPassed, Description, Date, filePath);
             }
         }
 
-        public VeterinaryActivity(int id_veterinary_activity)
+        public VeterinaryActivity(long id_veterinaryActivity, long id_pet, long id_standardVeterinaryActivity, bool wasPassed, string description, DateTime date, string filePath)
         {
-            Dictionary<String, dynamic> objectFromDB =
-                new Dictionary<string, dynamic>
-                {
-                    { "id", 1 },
-                    {"id_pet", 1 },
-                    {"id_standard_veterinary_activity", 1 },
-                    {"wasPassed", true },
-                    {"description", "Обработка от эктопаразитов" },
-                    {"date", new DateTime(2022, 04, 13) },
-                    {"filePath", "/documentsForVeterinaryActivity/1.docx" },
-                };
-
-            Id = objectFromDB["id"];
-            pet = objectFromDB["id_pet"];
-            standardVeterinaryActivity = objectFromDB["id_standard_veterinary_activity"];
-            WasPassed = objectFromDB["wasPassed"];
-            Description = objectFromDB["description"];
-            Date = objectFromDB["date"];
-            documentOfVeterinaryActivityForPet = objectFromDB["id"];
+            Id = id_veterinaryActivity;
+            pet = id_pet;
+            standardVeterinaryActivity = id_standardVeterinaryActivity;
+            WasPassed = wasPassed;
+            Description = description;
+            Date = date;
+            this.filePath = filePath;
         }
     }
 }

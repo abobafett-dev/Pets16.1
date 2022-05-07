@@ -9,7 +9,7 @@ namespace WindowsFormsApp1.Controllers
 {
     class CardOfPetController
     {
-        public Pet OpenPet(int id_pet)
+        public Pet OpenPet(long id_pet)
         {
             Pet pet = new Pet(id_pet);
 
