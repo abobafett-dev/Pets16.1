@@ -9,23 +9,25 @@ namespace WindowsFormsApp1.Service
 {
     class dbPhoto
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbPhoto()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getPhotosOfPet(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var photosOfPets = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM photo WHERE id_pet =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM photo WHERE id_pet =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -43,6 +45,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return photosOfPets;
         }
     }

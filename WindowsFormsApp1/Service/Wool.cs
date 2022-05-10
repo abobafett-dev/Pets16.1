@@ -13,23 +13,25 @@ namespace WindowsFormsApp1.Service
     //Шерсть кудрявая
     class dbWool
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbWool()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getAllWools()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var wools = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM wool", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM wool", getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -42,19 +44,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return wools;
         }
 
         public Dictionary<dynamic, dynamic> getWool(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var wool = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM wool WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM wool WHERE id =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -67,6 +72,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return wool;
         }
     }

@@ -11,23 +11,25 @@ namespace WindowsFormsApp1.Service
     //Дегельминтизация
     class dbStandardVeterinaryActivity
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbStandardVeterinaryActivity()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getAllStandardVeterinaryActivties()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var standardVeterinaryActivities = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM standardveterinaryactivity", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM standardveterinaryactivity", getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -40,19 +42,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return standardVeterinaryActivities;
         }
 
         public Dictionary<dynamic, dynamic> getStandardVeterinaryActivity(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var standardVeterinaryActivity = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM standardVeterinaryActivity WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM standardVeterinaryActivity WHERE id =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -65,6 +70,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return standardVeterinaryActivity;
         }
     }

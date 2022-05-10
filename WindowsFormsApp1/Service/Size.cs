@@ -12,23 +12,25 @@ namespace WindowsFormsApp1.Service
 //Размер животного большое
     class dbSize
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbSize()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getAllSizes()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var sizes = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM size", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM size", getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -41,19 +43,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return sizes;
         }
 
         public Dictionary<dynamic, dynamic> getSize(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var size = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM size WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM size WHERE id =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -66,6 +71,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return size;
         }
     }

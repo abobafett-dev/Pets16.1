@@ -12,23 +12,25 @@ namespace WindowsFormsApp1.Service
 
     class dbCategory
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbCategory()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getAllCategories()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var categories = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM category", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM category", getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -41,19 +43,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return categories;
         }
 
         public Dictionary<dynamic, dynamic> getCategory(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var category = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM category WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM category WHERE id =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -66,6 +71,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return category;
         }
     }

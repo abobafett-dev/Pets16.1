@@ -11,15 +11,18 @@ using System.Xml;
 using DGVWF;
 using WindowsFormsApp1.Controllers;
 using WindowsFormsApp1.Domain;
-using WindowsFormsApp1.Interface;
+using WindowsFormsApp1.Service;
 
 namespace WindowsFormsApp1
 {
     public partial class registryOfPets : Form
     {
         private Boolean PresentationType { get; set; }
+        private int CurrentPage { get; set; }
 
-        private DataGridViewWithFilter currentDGVWF = new DataGridViewWithFilter();
+        private Dictionary<string, dynamic> filtersAndSort = new Dictionary<string, dynamic>();
+
+        private DataGridView currentDGVWF = new DataGridView();
         private List<Button> currentIconsOfPets = new List<Button>();
 
         public registryOfPets()
@@ -27,7 +30,14 @@ namespace WindowsFormsApp1
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             PresentationType = false;
+            CurrentPage = 1;
             OpenRegistry();
+
+            var categories = new dbCategory().getAllCategories();
+            foreach (var category in categories)
+            {
+                comboBox3.Items.Add(category.Value);
+            }
         }
 
         private void event_registryOfPets_Load(object sender, EventArgs e)
@@ -37,19 +47,8 @@ namespace WindowsFormsApp1
 
         private void event_registryOfPets_Click_ChangePresentationType(object sender, EventArgs e)
         {
-            if(PresentationType == false)
-            {
-                this.Controls.Remove(currentDGVWF);
-            }
-            else if(PresentationType == true)
-            {
-                foreach(var element in currentIconsOfPets)
-                {
-                    this.Controls.Remove(element);
-                }
-            }
-            currentIconsOfPets = new List<Button>();
             ChangePresentationType();
+            CurrentPage = 1;
             OpenRegistry();
         }
 
@@ -60,18 +59,39 @@ namespace WindowsFormsApp1
 
         private void OpenRegistry()
         {
+            if (PresentationType == false)
+            {
+                tabPage1.Controls.Remove(currentDGVWF);
+                foreach (var element in currentIconsOfPets)
+                {
+                    tabPage1.Controls.Remove(element);
+                }
+            }
+            else if (PresentationType == true)
+            {
+                tabPage1.Controls.Remove(currentDGVWF);
+                foreach (var element in currentIconsOfPets)
+                {
+                    tabPage1.Controls.Remove(element);
+                }
+            }
+            currentIconsOfPets = new List<Button>();
+
             RegistryOfPetsController registryOfPets_controller = new RegistryOfPetsController();
-            List<Pet> pets = registryOfPets_controller.OpenRegistry();
+            Dictionary<string, dynamic> infoAboutPets = registryOfPets_controller.OpenRegistry(CurrentPage, filtersAndSort);
+            List<Pet> pets = infoAboutPets["pets"];
+
+            CurrentPage = infoAboutPets["pageNumber"];
+            label1.Text = CurrentPage.ToString();
 
             var currentPresentationType = PresentationType;
 
             if (currentPresentationType == false)
             {
-                this.AutoScrollMinSize = new System.Drawing.Size(0, 500);
 
-                DataGridViewWithFilter newDGVWF = new DataGridViewWithFilter();
+                DataGridView newDGVWF = new DataGridView();
 
-                newDGVWF.Bounds = new Rectangle(15, 70, 744, 428);
+                newDGVWF.Bounds = new Rectangle(0, 0, 50, 50);
                 newDGVWF.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
                 newDGVWF.AllowUserToAddRows = false;
                 newDGVWF.AllowUserToResizeColumns = false;
@@ -79,10 +99,12 @@ namespace WindowsFormsApp1
                 newDGVWF.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
                 newDGVWF.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWF.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                newDGVWF.Dock = DockStyle.Fill;
+                newDGVWF.ReadOnly = true;
 
                 newDGVWF.RowHeaderMouseClick += event_registryOfPets_DGVWF_RowHeaderMouseClick;
 
-                this.Controls.Add(newDGVWF);
+                tabPage1.Controls.Add(newDGVWF);
                 currentDGVWF = newDGVWF;
 
                 DataTable DT = new DataTable();
@@ -100,34 +122,22 @@ namespace WindowsFormsApp1
                 {
                     DT.Rows.Add(pet.Id, pet.Category.Name, pet.Name, pet.Birthday, pet.Breed, pet.DateRegistry, "№"+pet.PassportNumber, pet.OwnerName);
                 }
-                
-                /////TODO: Убрать временные данные, после подключения БД
-                //DT.Rows.Add(1, "собака", "пёс", new DateTime(1995,04,13), "лысый", new DateTime(2022, 04, 13), "№32140123894", "Иванов Иван Иванович");
-                //DT.Rows.Add(2, "кошка", "кот", new DateTime(1991, 04, 13), "арбалет", new DateTime(2022, 04, 13), "№32140233894", "Иванов Иван Иванович");
-                /////
 
                 DataSet DS = new DataSet();
                 DS.Tables.Add(DT);
 
                 newDGVWF.DataSource = DS.Tables[0];
                 newDGVWF.Columns["id"].Visible = false;
+
+                foreach (DataGridViewColumn column in newDGVWF.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
             else if (currentPresentationType == true)
             {
-                //int sizeForm = 784;
-                //button
-                //button_id
-                //text 
-                //textAlign = BottomCenter
-                //backgroundimage
-                //backgroundimagelayout = zoom
-                //width = 150
-                //height = 160
-                //start location
-                // x = 10
-                // y = 40
-                int locX = 10;
-                int locY = 70;
+                int locX = 50;
+                int locY = 10;
                 int currentElement = 1;
 
                 foreach (Pet pet in pets)
@@ -138,15 +148,29 @@ namespace WindowsFormsApp1
                     newButton.Name = "button_pet_" + pet.Id;
                     newButton.Text = pet.Name;
                     newButton.TextAlign = ContentAlignment.BottomCenter;
-                    newButton.BackgroundImage = Properties.Resources.exampleImage;
+
+
+
+                    string firstPhotoFilePath = null;
+
+                    if (pet.Photos.Count != 0)
+                    {
+                        firstPhotoFilePath = pet.Photos.First().Value.FilePath;
+                    }
+
+                    if(firstPhotoFilePath != null)
+                    {
+                        newButton.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(firstPhotoFilePath);
+                    }
+
                     newButton.BackgroundImageLayout = ImageLayout.Zoom;
                     newButton.Click += event_PetButton_Click;
                     newButton.MaximumSize = new System.Drawing.Size(150, 160);
-                    this.Controls.Add(newButton);
+                    tabPage1.Controls.Add(newButton);
                     currentIconsOfPets.Add(newButton);
                     if (currentElement % 4 == 0)
                     {
-                        locX = 10;
+                        locX = 50;
                         locY += 170;
                     }
                     else
@@ -157,34 +181,7 @@ namespace WindowsFormsApp1
                     currentElement++;
                 }
 
-                /////TODO: Убрать временные данные, после подключения БД
-                //for (var i = currentElement; i < 20; i++)
-                //{
-                //    Button newButton = new Button();
-                //    newButton.Bounds = new Rectangle(locX, locY, 150, 160);
-                //    newButton.Anchor = ((AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right | AnchorStyles.Bottom)));
-                //    newButton.Name = "button_pet_"+i;
-                //    newButton.Text = "кличка животного "+i;
-                //    newButton.TextAlign = ContentAlignment.BottomCenter;
-                //    newButton.BackgroundImage = Properties.Resources.exampleImage;
-                //    newButton.BackgroundImageLayout = ImageLayout.Zoom;
-                //    newButton.Click += event_PetButton_Click;
-                //    newButton.MaximumSize = new System.Drawing.Size(150,160);
-                //    this.Controls.Add(newButton);
-                //    currentIconsOfPets.Add(newButton);
-                //    if (i % 4 == 0)
-                //    {
-                //        locX = 10;
-                //        locY += 170;
-                //    }
-                //    else
-                //    {
-                //        locX += 160;
-                //    }
-                //}
-                /////
-
-                this.AutoScrollMinSize = new System.Drawing.Size(0,locY + 170);
+                tabPage1.AutoScrollMinSize = new System.Drawing.Size(0,locY + 170);
             }
         }
 
@@ -196,8 +193,41 @@ namespace WindowsFormsApp1
 
         private void ExportToExcel()
         {
+            filtersAndSort = new Dictionary<string, dynamic>();
+            if (comboBox3.SelectedItem != null)
+            {
+                filtersAndSort.Add("category", comboBox3.SelectedItem.ToString());
+            }
+
+            filtersAndSort.Add("breed", textBox1.Text);
+            filtersAndSort.Add("petName", textBox2.Text);
+            filtersAndSort.Add("passportNumber", textBox6.Text);
+            filtersAndSort.Add("ownerName", textBox7.Text);
+
+            if (checkBox1.Checked)
+            {
+                filtersAndSort.Add("birthdayFrom", dateTimePicker1.Value);
+                filtersAndSort.Add("birthdayTo", dateTimePicker2.Value);
+            }
+
+            if (checkBox2.Checked)
+            {
+                filtersAndSort.Add("dateRegistryFrom", dateTimePicker4.Value);
+                filtersAndSort.Add("dateRegistryTo", dateTimePicker3.Value);
+            }
+
+            if (comboBox1.SelectedItem != null)
+            {
+                filtersAndSort.Add("sortColumn", comboBox1.SelectedItem.ToString());
+            }
+
+            if (comboBox2.SelectedItem != null)
+            {
+                filtersAndSort.Add("sortType", comboBox2.SelectedItem.ToString());
+            }
+
             RegistryOfPetsController registryOfPetsController = new RegistryOfPetsController();
-            registryOfPetsController.ExportExcel();
+            registryOfPetsController.ExportExcel(filtersAndSort);
         }
 
         private void event_CloseWindow(object sender, EventArgs e)
@@ -222,10 +252,63 @@ namespace WindowsFormsApp1
             OpenPet(id_pet);
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)
         {
-            Form form = new registryOfPetsFilters();
-            form.Show();
+            CurrentPage++;
+            OpenRegistry();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            CurrentPage--;
+            OpenRegistry();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            filtersAndSort = new Dictionary<string, dynamic>();
+            if (comboBox3.SelectedItem != null)
+            {
+                filtersAndSort.Add("category", comboBox3.SelectedItem.ToString());
+            }
+
+            filtersAndSort.Add("breed", textBox1.Text);
+            filtersAndSort.Add("petName", textBox2.Text);
+            filtersAndSort.Add("passportNumber", textBox6.Text);
+            filtersAndSort.Add("ownerName", textBox7.Text);
+
+            if (checkBox1.Checked)
+            {
+                filtersAndSort.Add("birthdayFrom", dateTimePicker1.Value);
+                filtersAndSort.Add("birthdayTo", dateTimePicker2.Value);
+            }
+
+            if (checkBox2.Checked)
+            {
+                filtersAndSort.Add("dateRegistryFrom", dateTimePicker4.Value);
+                filtersAndSort.Add("dateRegistryTo", dateTimePicker3.Value);
+            }
+
+            if (comboBox1.SelectedItem != null)
+            {
+                filtersAndSort.Add("sortColumn", comboBox1.SelectedItem.ToString());
+            }
+
+            if (comboBox2.SelectedItem != null)
+            {
+                filtersAndSort.Add("sortType", comboBox2.SelectedItem.ToString());
+            }
+
+            CurrentPage = 1;
+            OpenRegistry();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            filtersAndSort = new Dictionary<string, dynamic>();
+
+            CurrentPage = 1;
+            OpenRegistry();
         }
     }
 }

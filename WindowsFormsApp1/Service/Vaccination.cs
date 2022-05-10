@@ -19,32 +19,34 @@ namespace WindowsFormsApp1.Service
     //Против хламидиоза кошка
     class dbVaccination
     {
-
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbVaccination()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getVaccinationsOfPet(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var vaccinationsOfPet = new Dictionary<dynamic, dynamic> { };
             var standardVaccinations = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand commandVaccinations = new NpgsqlCommand("SELECT * FROM vaccination", connection);
+            NpgsqlCommand commandVaccinations = new NpgsqlCommand("SELECT * FROM vaccination", getConnection);
 
-            var secondConnection = new connectionWithDB().getConnection();
-            if (secondConnection is String)
+            var secondConnection = new connectionWithDB();
+            var secondGetConnection = secondConnection.getConnection();
+            if (secondGetConnection is String)
             {
-                return secondConnection;
+                return secondGetConnection;
             }
-            NpgsqlCommand commandVaccinationsOfPet = new NpgsqlCommand("SELECT * FROM pet_vaccination WHERE id_pet =" + id, secondConnection);
+            NpgsqlCommand commandVaccinationsOfPet = new NpgsqlCommand("SELECT * FROM pet_vaccination WHERE id_pet =" + id, secondGetConnection);
 
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader readerVaccinations = commandVaccinations.ExecuteReader();
@@ -78,6 +80,8 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
+            secondConnection.closeConnection();
             return vaccinationsOfPet;
         }
     }

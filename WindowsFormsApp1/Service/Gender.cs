@@ -13,23 +13,25 @@ namespace WindowsFormsApp1.Service
     //Пол животного кошка
     class dbGender
     {
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbGender()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getAllGenders()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var genders = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM gender", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM gender", getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -47,19 +49,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return genders;
         }
 
         public Dictionary<dynamic, dynamic> getGender(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var gender = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM gender WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM gender WHERE id =" + id, getConnection);
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
@@ -77,6 +82,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return gender;
         }
     }

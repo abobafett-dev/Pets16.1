@@ -66,7 +66,7 @@ namespace WindowsFormsApp1
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(944, 383);
+            this.button1.Location = new System.Drawing.Point(773, 383);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -82,6 +82,7 @@ namespace WindowsFormsApp1
             this.button2.TabIndex = 2;
             this.button2.Text = "Сформировать паспорт ДЖ в Word";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -89,15 +90,16 @@ namespace WindowsFormsApp1
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(201, 23);
             this.button3.TabIndex = 3;
-            this.button3.Text = "Экспорт записей в Excel";
+            this.button3.Text = "Экспорт в Excel";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabPage5
             // 
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage5.Size = new System.Drawing.Size(842, 339);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Документы";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -107,7 +109,7 @@ namespace WindowsFormsApp1
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage4.Size = new System.Drawing.Size(842, 339);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Ветеренарные назначения";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -117,7 +119,7 @@ namespace WindowsFormsApp1
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage3.Size = new System.Drawing.Size(842, 339);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Дегельминтизация/Обработка от экто- и эндопаразитов";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -127,7 +129,7 @@ namespace WindowsFormsApp1
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage2.Size = new System.Drawing.Size(842, 339);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Вакцинация";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -157,10 +159,11 @@ namespace WindowsFormsApp1
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage1.Size = new System.Drawing.Size(842, 339);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Основные характеристики животного";
             this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // pictureBox_photo
             // 
@@ -373,7 +376,7 @@ namespace WindowsFormsApp1
             this.tabControl1.Location = new System.Drawing.Point(5, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1014, 365);
+            this.tabControl1.Size = new System.Drawing.Size(850, 365);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage6
@@ -381,7 +384,7 @@ namespace WindowsFormsApp1
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1006, 339);
+            this.tabPage6.Size = new System.Drawing.Size(842, 339);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Фото";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -390,7 +393,7 @@ namespace WindowsFormsApp1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1028, 418);
+            this.ClientSize = new System.Drawing.Size(856, 409);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);

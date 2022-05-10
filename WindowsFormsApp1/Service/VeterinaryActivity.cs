@@ -10,20 +10,20 @@ namespace WindowsFormsApp1.Service
 {
     class dbVeterinaryActivity
     {
-
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbVeterinaryActivity()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getDocumentsOfPet(long id)
         {
-            connection = new connectionWithDB().getConnection();
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var documentsOfPet = new Dictionary<dynamic, dynamic> { };
@@ -31,7 +31,7 @@ namespace WindowsFormsApp1.Service
             var dbStandardVeterinaryActivity = new dbStandardVeterinaryActivity();
             var standardVeterinaryActivities = dbStandardVeterinaryActivity.getAllStandardVeterinaryActivties();
 
-            NpgsqlCommand commanddocumentsOfPet = new NpgsqlCommand("SELECT * FROM veterinaryactivity WHERE id_pet =" + id, connection);
+            NpgsqlCommand commanddocumentsOfPet = new NpgsqlCommand("SELECT * FROM veterinaryactivity WHERE id_pet =" + id, getConnection);
 
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = commanddocumentsOfPet.ExecuteReader();
@@ -60,14 +60,17 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return documentsOfPet;
         }
 
         public Dictionary<dynamic, dynamic> getVeterinaryActivitiesOfPet(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var documentsOfPet = new Dictionary<dynamic, dynamic> { };
@@ -75,7 +78,7 @@ namespace WindowsFormsApp1.Service
             var dbStandardVeterinaryActivity = new dbStandardVeterinaryActivity();
             var standardVeterinaryActivities = dbStandardVeterinaryActivity.getAllStandardVeterinaryActivties();
 
-            NpgsqlCommand commanddocumentsOfPet = new NpgsqlCommand("SELECT * FROM veterinaryactivity WHERE id_pet =" + id, connection);
+            NpgsqlCommand commanddocumentsOfPet = new NpgsqlCommand("SELECT * FROM veterinaryactivity WHERE id_pet =" + id, getConnection);
 
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = commanddocumentsOfPet.ExecuteReader();
@@ -105,6 +108,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return documentsOfPet;
         }
     }

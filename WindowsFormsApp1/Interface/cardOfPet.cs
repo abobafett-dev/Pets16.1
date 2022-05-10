@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApp1.Domain;
 using WindowsFormsApp1.Controllers;
@@ -15,7 +13,9 @@ namespace WindowsFormsApp1
 {
     public partial class cardOfPet : Form
     {
-        Dictionary<String, DataGridView> currentDGVWFs = new Dictionary<String, DataGridView>
+        private int currentPet;
+
+        private Dictionary<String, DataGridView> currentDGVWFs = new Dictionary<String, DataGridView>
         {
             { "currentVaccinationsInDGVWF", new DataGridViewWithFilter() },
             { "currentVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
@@ -29,6 +29,7 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            currentPet = id_pet;
             OpenPet(id_pet);
         }
 
@@ -42,10 +43,17 @@ namespace WindowsFormsApp1
             CardOfPetController CardOfPet_controller = new CardOfPetController();
             Pet currentPet = CardOfPet_controller.OpenPet(id_pet);
 
-            var firstPhotoFilePath = currentPet.Photos.First().Value.FilePath;
+            string firstPhotoFilePath = null;
 
-            pictureBox_photo.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(firstPhotoFilePath);
-
+            if (currentPet.Photos.Count != 0)
+            {
+                firstPhotoFilePath = currentPet.Photos.First().Value.FilePath;
+            }
+            if(firstPhotoFilePath != null)
+            {
+                pictureBox_photo.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(firstPhotoFilePath);
+            }
+                
             label_name.Text = currentPet.Name;
             label_category.Text = currentPet.Category.Name;
             label_breed.Text = currentPet.Breed;
@@ -64,7 +72,7 @@ namespace WindowsFormsApp1
                 { "newVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
                 { "newAllVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
                 { "newPhotosInDGVWF", new DataGridView() },
-                { "newDocumentsFromVeterinaryActivitiesInDGVWF", new DataGridViewWithFilter() },
+                { "newDocumentsFromVeterinaryActivitiesInDGVWF", new DataGridView() },
             };
 
             //newVaccinationsInDGVWF
@@ -112,6 +120,7 @@ namespace WindowsFormsApp1
                 newDGVWFs["newVeterinaryActivitiesInDGVWF"].RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWFs["newVeterinaryActivitiesInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 newDGVWFs["newVeterinaryActivitiesInDGVWF"].Dock = DockStyle.Fill;
+                newDGVWFs["newVeterinaryActivitiesInDGVWF"].ReadOnly = true;
 
                 tabPage3.Controls.Add(newDGVWFs["newVeterinaryActivitiesInDGVWF"]);
                 currentDGVWFs["newVeterinaryActivitiesInDGVWF"] = newDGVWFs["newVeterinaryActivitiesInDGVWF"];
@@ -122,9 +131,12 @@ namespace WindowsFormsApp1
                 DTToNewVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
                 DTToNewVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[true].Values)
+                if (currentPet.VeterinaryActivities.ContainsKey(true))
                 {
-                    DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
+                    foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[true].Values)
+                    {
+                        DTToNewVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
+                    }
                 }
 
                 /////TODO: Убрать временные данные, после подключения БД
@@ -148,6 +160,7 @@ namespace WindowsFormsApp1
                 newDGVWFs["newAllVeterinaryActivitiesInDGVWF"].RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWFs["newAllVeterinaryActivitiesInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 newDGVWFs["newAllVeterinaryActivitiesInDGVWF"].Dock = DockStyle.Fill;
+                newDGVWFs["newAllVeterinaryActivitiesInDGVWF"].ReadOnly = true;
 
                 tabPage4.Controls.Add(newDGVWFs["newAllVeterinaryActivitiesInDGVWF"]);
                 currentDGVWFs["newAllVeterinaryActivitiesInDGVWF"] = newDGVWFs["newAllVeterinaryActivitiesInDGVWF"];
@@ -158,9 +171,13 @@ namespace WindowsFormsApp1
                 DTToNewAllVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
                 DTToNewAllVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
 
-                foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[false].Values)
+
+                if (currentPet.VeterinaryActivities.ContainsKey(false))
                 {
-                    DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
+                    foreach (VeterinaryActivity veterinaryActivity in currentPet.VeterinaryActivities[false].Values)
+                    {
+                        DTToNewAllVeterinaryActivitiesInDGVWF.Rows.Add(veterinaryActivity.Id, veterinaryActivity.StandardVeterinaryActivity.Name, veterinaryActivity.Date);
+                    }
                 }
 
                 /////TODO: Убрать временные данные, после подключения БД
@@ -184,6 +201,8 @@ namespace WindowsFormsApp1
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].Dock = DockStyle.Fill;
+                newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].ReadOnly = true;
+
 
                 tabPage5.Controls.Add(newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"]);
                 currentDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"] = newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"];
@@ -193,11 +212,16 @@ namespace WindowsFormsApp1
                 DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Имя файла");
                 DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Описание");
                 DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Дата", typeof(DateTime));
+                DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Columns.Add("Нажмите на необходиму строку для скачивания");
 
-                foreach (DocumentOfVeterinaryActivityForPet documentOfVeterinaryActivityForPet in currentPet.DocumentsOfVeterinaryActivities.Values)
+                if (currentPet.DocumentsOfVeterinaryActivities.Count > 0)
                 {
-                    DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add(documentOfVeterinaryActivityForPet.FilePath, documentOfVeterinaryActivityForPet.VeterinaryActivity.Description, documentOfVeterinaryActivityForPet.VeterinaryActivity.Date);
+                    foreach (DocumentOfVeterinaryActivityForPet documentOfVeterinaryActivityForPet in currentPet.DocumentsOfVeterinaryActivities.Values)
+                    {
+                        DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add(documentOfVeterinaryActivityForPet.FilePath, documentOfVeterinaryActivityForPet.VeterinaryActivity.StandardVeterinaryActivity.Name, documentOfVeterinaryActivityForPet.VeterinaryActivity.Date, "Скачать документ");
+                    }
                 }
+
 
                 /////TODO: Убрать временные данные, после подключения БД
                 //DTToNewDocumentsFromVeterinaryActivitiesInDGVWF.Rows.Add("Какой-то акт", "Обработка от эктопаразитов", new DateTime(2022, 04, 13));
@@ -208,6 +232,12 @@ namespace WindowsFormsApp1
                 DSToNewDocumentsFromVeterinaryActivitiesInDGVWF.Tables.Add(DTToNewDocumentsFromVeterinaryActivitiesInDGVWF);
 
                 newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].DataSource = DSToNewDocumentsFromVeterinaryActivitiesInDGVWF.Tables[0];
+
+                //DataGridViewButtonColumn currentButton = new DataGridViewButtonColumn();
+
+                //newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].Columns.AddRange(new DataGridViewColumn[] { currentButton });
+                //newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].Columns[3].HeaderText = "Скачать документ";
+                newDGVWFs["newDocumentsFromVeterinaryActivitiesInDGVWF"].CellClick += event_Click_DownloadDoc;
             }
 
             //newPhotosInDGVWF
@@ -220,6 +250,7 @@ namespace WindowsFormsApp1
                 newDGVWFs["newPhotosInDGVWF"].AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 newDGVWFs["newPhotosInDGVWF"].AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 newDGVWFs["newPhotosInDGVWF"].Dock = DockStyle.Fill;
+                newDGVWFs["newPhotosInDGVWF"].ReadOnly = true;
 
                 tabPage6.Controls.Add(newDGVWFs["newPhotosInDGVWF"]);
                 currentDGVWFs["newPhotosInDGVWF"] = newDGVWFs["newPhotosInDGVWF"];
@@ -228,11 +259,23 @@ namespace WindowsFormsApp1
 
                 DTToNewPhotosInDGVWF.Columns.Add("Фото", typeof(Image));
 
-                foreach (Photo photo in currentPet.Photos.Values)
+                if (currentPet.Photos.Count > 0)
                 {
-                    DTToNewPhotosInDGVWF.Rows.Add((Image)Properties.Resources.ResourceManager.GetObject(photo.FilePath));
-                }
+                    foreach (Photo photo in currentPet.Photos.Values)
+                    {
+                        var imagePhoto = (Image)Properties.Resources.ResourceManager.GetObject(photo.FilePath);
+                        Bitmap imageResize = new Bitmap(200, 200);
+                        using (Graphics gr = Graphics.FromImage(imageResize))
+                        {
+                            gr.SmoothingMode = SmoothingMode.HighQuality;
+                            gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            gr.DrawImage(imagePhoto, new Rectangle(0,0,200,200));
+                        }
 
+                            DTToNewPhotosInDGVWF.Rows.Add(imageResize);
+                    }
+                }
                 DataSet DSToNewPhotosInDGVWF = new DataSet();
                 DSToNewPhotosInDGVWF.Tables.Add(DTToNewPhotosInDGVWF);
 
@@ -241,10 +284,20 @@ namespace WindowsFormsApp1
 
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ExportToExcel(currentPet);
+        }
+
         private void ExportToExcel(int id_pet)
         {
             CardOfPetController cardOfPetController = new CardOfPetController();
             cardOfPetController.ExportExcel(id_pet);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ExportToWord(currentPet);
         }
 
         private void ExportToWord(int id_pet)
@@ -258,12 +311,30 @@ namespace WindowsFormsApp1
             this.Close();
         }
 
+        private void event_Click_DownloadDoc(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex != 3 || e.RowIndex < 0)
+            {
+                return;
+            }
+            DataGridView currentDGV = (DataGridView)sender;
+            var filePath = (string)currentDGV.Rows[e.RowIndex].Cells[0].Value;
+
+            CardOfPetController cardOfPetController = new CardOfPetController();
+            cardOfPetController.DownloadDoc(filePath);
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }

@@ -4,29 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp1.Service
 {
     class dbPet
     {
-
-        private dynamic connection;
+        private connectionWithDB connection;
 
         public dbPet()
         {
-            connection = new connectionWithDB().getConnection();
+
         }
 
         public Dictionary<dynamic, dynamic> getPet(long id)
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var pet = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM pet WHERE id =" + id, connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM pet WHERE id =" + id, getConnection);
 
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -60,19 +62,22 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return pet;
         }
 
         public Dictionary<dynamic, dynamic> getPets()
         {
-            if (connection is String)
+            connection = new connectionWithDB();
+            var getConnection = connection.getConnection();
+            if (getConnection is String)
             {
-                return connection;
+                return getConnection;
             }
 
             var pets = new Dictionary<dynamic, dynamic> { };
 
-            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM pet", connection);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM pet", getConnection);
 
             //int rows_changed = command.ExecuteNonQuery();
             NpgsqlDataReader reader = command.ExecuteReader();
@@ -110,6 +115,7 @@ namespace WindowsFormsApp1.Service
                 }
             }
 
+            connection.closeConnection();
             return pets;
         }
     }
