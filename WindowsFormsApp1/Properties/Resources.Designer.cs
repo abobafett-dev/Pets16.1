@@ -99,5 +99,15 @@ namespace WindowsFormsApp1.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] exampleDoc {
+            get {
+                object obj = ResourceManager.GetObject("exampleDoc", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace WindowsFormsApp1.Controllers
         public void DownloadDoc(string filePath)
         {
 
-
+            var s = Properties.Resources.ResourceManager.GetObject(filePath);
             var file = (byte[])Properties.Resources.ResourceManager.GetObject(filePath);
 
             SaveFileDialog sfd = new SaveFileDialog();
