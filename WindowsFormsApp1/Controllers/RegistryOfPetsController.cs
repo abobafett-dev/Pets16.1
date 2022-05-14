@@ -149,7 +149,7 @@ namespace WindowsFormsApp1.Controllers
             List<Pet> petsWithFilters = new List<Pet>();
             foreach (Pet currentPet in pets)
             {
-                if (filtersAndSorts.ContainsKey("category") && filtersAndSorts["category"] != "" && currentPet.Category.Name != filtersAndSorts["category"])
+                if (filtersAndSorts.ContainsKey("category") && filtersAndSorts["category"] != "" && filtersAndSorts["category"] != "Выберите категорию" && currentPet.Category.Name != filtersAndSorts["category"])
                 {
                     continue;
                 }
@@ -189,7 +189,7 @@ namespace WindowsFormsApp1.Controllers
             }
 
 
-            if (filtersAndSorts.ContainsKey("sortColumn") && filtersAndSorts.ContainsKey("sortType") && filtersAndSorts["sortColumn"] != "" && filtersAndSorts["sortType"] != "")
+            if (filtersAndSorts.ContainsKey("sortColumn") && filtersAndSorts.ContainsKey("sortType") && filtersAndSorts["sortColumn"] != "" && filtersAndSorts["sortType"] != "" && filtersAndSorts["sortColumn"] != "Выберите столбец" && filtersAndSorts["sortType"] != "Выберите тип сортировки")
             {
                 if (filtersAndSorts["sortType"] == "Возрастанию")
                 {

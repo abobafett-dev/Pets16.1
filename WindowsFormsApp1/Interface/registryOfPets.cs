@@ -307,6 +307,16 @@ namespace WindowsFormsApp1
         {
             filtersAndSort = new Dictionary<string, dynamic>();
 
+            comboBox1.SelectedItem = null;
+            comboBox2.SelectedItem = null;
+            comboBox3.SelectedItem = null;
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox6.Text = "";
+            textBox7.Text = "";
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+
             CurrentPage = 1;
             OpenRegistry();
         }
