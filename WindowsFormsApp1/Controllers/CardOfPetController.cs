@@ -102,12 +102,15 @@ namespace WindowsFormsApp1.Controllers
             sheetThird.Cells[1, 3] = "Имя файла";
 
             var currentRowVeterinaryActivity = 2;
-            foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[true].Values)
+            if (pet.VeterinaryActivities.ContainsKey(true))
             {
-                sheetThird.Cells[currentRowVeterinaryActivity, 1] = veterinaryActivity.StandardVeterinaryActivity.Name;
-                sheetThird.Cells[currentRowVeterinaryActivity, 2] = veterinaryActivity.Date;
-                sheetThird.Cells[currentRowVeterinaryActivity, 3] = veterinaryActivity.DocumentOfVeterinaryActivityForPet.FilePath;
-                currentRowVeterinaryActivity++;
+                foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[true].Values)
+                {
+                    sheetThird.Cells[currentRowVeterinaryActivity, 1] = veterinaryActivity.StandardVeterinaryActivity.Name;
+                    sheetThird.Cells[currentRowVeterinaryActivity, 2] = veterinaryActivity.Date;
+                    sheetThird.Cells[currentRowVeterinaryActivity, 3] = veterinaryActivity.DocumentOfVeterinaryActivityForPet.FilePath;
+                    currentRowVeterinaryActivity++;
+                }
             }
 
             sheetThird.Cells.EntireColumn.AutoFit();
@@ -123,12 +126,15 @@ namespace WindowsFormsApp1.Controllers
             sheetFourth.Cells[1, 3] = "Имя файла";
 
             var currentRowVeterinaryActivityInFuture = 2;
-            foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[false].Values)
+            if (pet.VeterinaryActivities.ContainsKey(true))
             {
-                sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 1] = veterinaryActivity.StandardVeterinaryActivity.Name;
-                sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 2] = veterinaryActivity.Date;
-                sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 3] = veterinaryActivity.DocumentOfVeterinaryActivityForPet.FilePath;
-                currentRowVeterinaryActivityInFuture++;
+                foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[false].Values)
+                {
+                    sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 1] = veterinaryActivity.StandardVeterinaryActivity.Name;
+                    sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 2] = veterinaryActivity.Date;
+                    sheetFourth.Cells[currentRowVeterinaryActivityInFuture, 3] = veterinaryActivity.DocumentOfVeterinaryActivityForPet.FilePath;
+                    currentRowVeterinaryActivityInFuture++;
+                }
             }
 
             sheetFourth.Cells.EntireColumn.AutoFit();
@@ -170,14 +176,11 @@ namespace WindowsFormsApp1.Controllers
             Pet pet = new Pet(id_pet);
 
             Word.Application word = new Word.Application();
-            Word.Application wordVaccination = new Word.Application();
 
             try
             {
                 var filePath = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.Length - 10, 10) + "Resources\\examplePetPassport.docx";
-                var filePathToVaccinationSection = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.Length - 10, 10) + "Resources\\exampleVaccinationSection.docx";
                 var wordOpen = word.Documents.Open(filePath);
-                var wordOpenVaccinationSection = wordVaccination.Documents.Open(filePathToVaccinationSection);
 
                 String vaccinationRageDate = "";
 
@@ -192,15 +195,18 @@ namespace WindowsFormsApp1.Controllers
                 String ectoparasitesDate = "";
                 String dewormingDate = "";
 
-                foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[true].Values)
+                if (pet.VeterinaryActivities.ContainsKey(true))
                 {
-                    if (veterinaryActivity.StandardVeterinaryActivity.Name == "Обработка от эктопаразитов")
+                    foreach (VeterinaryActivity veterinaryActivity in pet.VeterinaryActivities[true].Values)
                     {
-                        ectoparasitesDate = veterinaryActivity.Date.ToString("dd.MM.yyyy");
-                    }
-                    else if (veterinaryActivity.StandardVeterinaryActivity.Name == "Дегельминтизация")
-                    {
-                        dewormingDate = veterinaryActivity.Date.ToString("dd.MM.yyyy");
+                        if (veterinaryActivity.StandardVeterinaryActivity.Name == "Обработка от эктопаразитов")
+                        {
+                            ectoparasitesDate = veterinaryActivity.Date.ToString("dd.MM.yyyy");
+                        }
+                        else if (veterinaryActivity.StandardVeterinaryActivity.Name == "Дегельминтизация")
+                        {
+                            dewormingDate = veterinaryActivity.Date.ToString("dd.MM.yyyy");
+                        }
                     }
                 }
 
@@ -223,6 +229,9 @@ namespace WindowsFormsApp1.Controllers
                 Word.Find find = word.Selection.Find;
 
                 object missing = Type.Missing;
+
+
+
                 object findTextStart = "<vaccinationSection>";
                 Word.Range range = wordOpen.Content;
 
@@ -235,62 +244,71 @@ namespace WindowsFormsApp1.Controllers
 
                 range.Delete();
 
-                Word.Range rangeVaccination = wordOpenVaccinationSection.Content;
-
-                Word.Find findVaccination = rangeVaccination.Find;
-                var vaccinationDate = "<vaccinationDate>";
-                var vaccinationName = "<vaccinationName>";
-
-                Object wrap = Word.WdFindWrap.wdFindContinue;
-                Object replace = Word.WdReplace.wdReplaceAll;
-
-                foreach (Vaccination vaccination in pet.Vaccinations.Values)
+                if (pet.Vaccinations.Count > 0)
                 {
-                    if (vaccination.Name == "Против бешенства")
+
+                    Word.Application wordVaccination = new Word.Application();
+                    var filePathToVaccinationSection = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.Length - 10, 10) + "Resources\\exampleVaccinationSection.docx";
+                    var wordOpenVaccinationSection = wordVaccination.Documents.Open(filePathToVaccinationSection);
+
+                    Word.Range rangeVaccination = wordOpenVaccinationSection.Content;
+
+                    Word.Find findVaccination = rangeVaccination.Find;
+                    var vaccinationDate = "<vaccinationDate>";
+                    var vaccinationName = "<vaccinationName>";
+
+                    Object wrap = Word.WdFindWrap.wdFindContinue;
+                    Object replace = Word.WdReplace.wdReplaceAll;
+
+                    foreach (Vaccination vaccination in pet.Vaccinations.Values)
                     {
-                        continue;
+                        if (vaccination.Name == "Против бешенства")
+                        {
+                            continue;
+                        }
+                        findVaccination.Text = vaccinationDate;
+                        findVaccination.Replacement.Text = vaccination.Date.ToString("dd.MM.yyyy");
+
+                        findVaccination.Execute(FindText: Type.Missing,
+                            MatchCase: false,
+                            MatchWholeWord: false,
+                            MatchWildcards: false,
+                            MatchSoundsLike: missing,
+                            MatchAllWordForms: false,
+                            Forward: true,
+                            Wrap: wrap,
+                            Format: false,
+                            ReplaceWith: missing, Replace: replace);
+
+                        findVaccination.Text = vaccinationName;
+                        findVaccination.Replacement.Text = vaccination.Name;
+
+                        findVaccination.Execute(FindText: Type.Missing,
+                            MatchCase: false,
+                            MatchWholeWord: false,
+                            MatchWildcards: false,
+                            MatchSoundsLike: missing,
+                            MatchAllWordForms: false,
+                            Forward: true,
+                            Wrap: wrap,
+                            Format: false,
+                            ReplaceWith: missing, Replace: replace);
+
+                        vaccinationDate = vaccination.Date.ToString("dd.MM.yyyy");
+                        vaccinationName = vaccination.Name;
+
+                        var currentRange = wordOpen.Range(vaccinationSectionStart, vaccinationSectionStart);
+
+                        rangeVaccination.Copy();
+
+                        Word.Range elementToVaccinationSection = wordOpen.Range(vaccinationSectionStart, vaccinationSectionStart);
+                        elementToVaccinationSection.Paste();
                     }
-                    findVaccination.Text = vaccinationDate;
-                    findVaccination.Replacement.Text = vaccination.Date.ToString("dd.MM.yyyy");
 
-                    findVaccination.Execute(FindText: Type.Missing,
-                        MatchCase: false,
-                        MatchWholeWord: false,
-                        MatchWildcards: false,
-                        MatchSoundsLike: missing,
-                        MatchAllWordForms: false,
-                        Forward: true,
-                        Wrap: wrap,
-                        Format: false,
-                        ReplaceWith: missing, Replace: replace);
 
-                    findVaccination.Text = vaccinationName;
-                    findVaccination.Replacement.Text = vaccination.Name;
-
-                    findVaccination.Execute(FindText: Type.Missing,
-                        MatchCase: false,
-                        MatchWholeWord: false,
-                        MatchWildcards: false,
-                        MatchSoundsLike: missing,
-                        MatchAllWordForms: false,
-                        Forward: true,
-                        Wrap: wrap,
-                        Format: false,
-                        ReplaceWith: missing, Replace: replace);
-
-                    vaccinationDate = vaccination.Date.ToString("dd.MM.yyyy");
-                    vaccinationName = vaccination.Name;
-
-                    var currentRange = wordOpen.Range(vaccinationSectionStart, vaccinationSectionStart);
-
-                    rangeVaccination.Copy();
-
-                    Word.Range elementToVaccinationSection = wordOpen.Range(vaccinationSectionStart, vaccinationSectionStart);
-                    elementToVaccinationSection.Paste();
+                    wordVaccination.Application.ActiveDocument.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
+                    wordVaccination.Application.Quit();
                 }
-
-                wordVaccination.Application.ActiveDocument.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
-                wordVaccination.Application.Quit();
 
                 foreach (KeyValuePair<String, String> findElement in findToReplaceElements)
                 {
@@ -338,7 +356,7 @@ namespace WindowsFormsApp1.Controllers
             catch (Exception ex)
             {
                 word.Application.ActiveDocument.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
-                wordVaccination.Application.ActiveDocument.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
+                MessageBox.Show(ex.ToString());
             }
         }
     }

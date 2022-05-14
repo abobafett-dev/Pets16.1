@@ -174,13 +174,13 @@ namespace WindowsFormsApp1.Controllers
                     continue;
                 }
 
-                if (filtersAndSorts.ContainsKey("dateRegistryFrom") && (filtersAndSorts["dateRegistryFrom"] < currentPet.DateRegistry || filtersAndSorts["dateRegistryTo"] > currentPet.DateRegistry))
+                if (filtersAndSorts.ContainsKey("dateRegistryFrom") && (filtersAndSorts["dateRegistryFrom"] > currentPet.DateRegistry || filtersAndSorts["dateRegistryTo"] < currentPet.DateRegistry))
                 {
                     continue;
                 }
 
 
-                if (filtersAndSorts.ContainsKey("birthdayFrom") && (filtersAndSorts["birthdayFrom"] < currentPet.Birthday || filtersAndSorts["birthdayTo"] > currentPet.Birthday))
+                if (filtersAndSorts.ContainsKey("birthdayFrom") && (filtersAndSorts["birthdayFrom"] > currentPet.Birthday || filtersAndSorts["birthdayTo"] < currentPet.Birthday))
                 {
                     continue;
                 }
